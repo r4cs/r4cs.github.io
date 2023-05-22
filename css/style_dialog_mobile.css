@@ -1,4 +1,5 @@
-@media screen and (max-width: 800px) and (min-width: 400px) {
+@media only screen and (max-device-width: 768px) {
+/*@media screen and (max-width: 800px) and (min-width: 400px) {*/
           @keyframes typing-anim {
             0% {
                 opacity: 1;

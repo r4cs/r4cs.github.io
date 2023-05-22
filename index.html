@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="utf-8">
+	<title>IPO: a link to the future</title>
+	<meta name="author" content="r4cs">
+	<meta name="description" content="Example description">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style_mobile.css">
+	<link rel="stylesheet" href="css/style_dialog_mobile.css">
+	<link rel="stylesheet" href="css/style_dialog.css">
+	<link rel="icon" type="image/x-icon" href="" />
+
+	<!-- fonte sono -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sono:wght@200&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<main class="gameboy">
+		<div class="gameboy-body">
+			<header></header>
+			<section class="screen">
+              
+                <div id="dialog-modal" class="hidden">
+                    <main id="main-dialog">
+                        <div id='characterDialogueBox'></div>
+                        <div class="overlay">
+                            <div class="bubble typing">
+                                <span>&bull;</span>
+                                <span>&bull;</span>
+                                <span>&bull;</span>
+                            </div>
+                        </div>
+
+                        <div class="overlay">
+                            <div class="bubble bot-text"></div>
+                            <br/>
+                            <div class="answers"></div>
+                        </div>
+
+                        <button id="start-button">Começar</button>
+                        <button id="quit-button">Sair</button>
+
+                    </main>
+                  </div>
+
+                <canvas></canvas>
+
+						
+				<div class="glass"> </div>
+				
+			</section>
+          
+			<section class="actions">
+				<div class="directions">
+					<button class="arrow-left"></button>
+					<button class="arrow-top"></button>
+					<button class="arrow-right"></button>
+					<button class="arrow-bottom"></button>
+				</div>
+				<div class="buttons">
+					<button class="button-a"></button>
+					<button class="button-b"></button>
+				</div>
+				<ul class="start-reset">
+					<li><button class="start"></button></li>
+					<li><button class="reset"></button></li>
+				</ul>
+				<div class="points">
+					<span>•••••</span><br>
+					<span>•••••••</span><br>
+					<span>•••••</span><br>
+					<span>••••••</span><br>
+					<span>••••</span>
+
+				</div>
+			</section>
+		</div>
+	</main>
+
+</body>
+  
+  
+<script type="text/javascript" src="data/collisions.js"></script>
+  
+<script type="text/javascript" src="data/characters.js"></script>
+  
+<script type="text/javascript" src="js/sycamore.js"></script>
+  
+<script type="text/javascript" src="js/utils.js"></script>  
+  
+<script type="text/javascript" src="js/classes.js"></script>
+  
+<script type="text/javascript" src="js/dialogoMngr.js"></script>
+  
+<script type="text/javascript" src="js/dialogos.js"></script>
+  
+<script type="text/javascript" src="js/index.js"></script>
+
+</html>

@@ -1,4 +1,4 @@
-@media screen and (max-width: 800px) and (min-width: 400px) or (max-device-width: 768px) {
+@media screen and (max-width: 800px) and (min-width: 400px), (max-device-width: 768px) {
 /*@media screen and (min-width: 800px ) {*/
 	canvas {
 		display: grid;

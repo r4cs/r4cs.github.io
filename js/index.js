@@ -24,10 +24,10 @@ console.log(charactersMap)
 const boundaries = [];
 const offset = {
 	// inicio oficial
-	x: -4000, // começa perto do bot da praia
-	y: -1600
-//  x: -1500, // comeca perto do bot dos limoes
-//  y: -1350
+//	x: -4000, // começa perto do bot da praia
+//	y: -1600
+  x: -1500, // comeca perto do bot dos limoes
+  y: -1350
   
 	
 };

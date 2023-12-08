@@ -1,4 +1,4 @@
-[Portfólio] www.r4cs.github.io :
+Portfólio acesse r4cs.github.io :
 
 * Dashboard de vendas + SEO pelo DataStudio
   

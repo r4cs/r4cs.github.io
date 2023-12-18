@@ -4005,23 +4005,3 @@ input, select, textarea {
 		opacity: 1;
 		visibility: visible;
 	}
-
-/* r4cs */
-/*#variavel-color {
-	margin: 0; 
-	margin-left: 10%; 
-	color: #e06c75;
-}
-
-#variavel-valores-color {
-	margin: 0; 
-	margin-left: 10%; 
-	white-space: no-wrap; 
-	color: #61afef;
-}
-
-@media screen and (max-width: 686px) {
-    #variavel-color #variavel-valores-color {
-        font-size: 0.75rem; /* Reduza o tamanho da fonte em 25% */
-    }
-}*/

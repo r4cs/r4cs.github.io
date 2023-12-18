@@ -1,4 +1,4 @@
-@media only screen and (max-device-width: 768px) {
+@media only screen and (max-device-width: 800px) {
 /*@media screen and (max-width: 800px) and (min-width: 400px) {*/
 /*@media screen and (min-width: 800px ) {*/
 	canvas {
@@ -29,7 +29,7 @@
 	  z-index: 10;
 	}
 	
-	# characterDialogueBox {
+	#characterDialogueBox {
 		box-sizing: border-box;
 		position: relative;				 
         background-color: white;
@@ -42,7 +42,7 @@
 	    display: none;
 	    padding: 12px;
 	}
-	# characterDialogueBox.textContent {
+	#characterDialogueBox.textContent {
 		font-family: 'Sono', sans-serif;
 	}
 	
@@ -76,14 +76,16 @@
 	 background-color: var(--pink);
 	}
 	.gameboy {
-	  display: flex;
+	  display: grid;
+	  /*display: flex;*/
 	  align-items: center;
 	  justify-content: center;
 	  height: 100vh;
 	}
 	.gameboy-body {
 	 background-color: var(--blue);
-	 width: 95%; /* 320px; */
+	 max-width: 80%; /* 320px; */
+	 /*width: 95%; !* 320px; *!*/
 	 height: 98%; /* 590px; */
 	 border-radius: 20px 20px 50px;
 	 border: 6px solid var(--stroke);	 
@@ -118,7 +120,7 @@
     padding: 2px;
     background: blue;
 */
-	 width: 90vw;
+	 /*width: 90vw;*/
 	 height: 55vh; 
 	 background-color: var(--light-brow);
 	 margin: 8px 0 0 8px;

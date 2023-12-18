@@ -1,20 +1,16 @@
-@media only screen and (max-device-width: 800px) {
+@media only screen and (max-device-width: 724px) {
 /*@media screen and (max-width: 800px) and (min-width: 400px) {*/
 /*@media screen and (min-width: 800px ) {*/
 	canvas {
 		display: grid;
 		grid-template-columns: auto;
-/*
-		 width: 85vw;
-		 height: 50vh;
-*/
         width: 100%;
-		 height: 100%;
+		height: 100%;
         
-		 border: 6px solid var(--stroke);
-		 box-shadow: inset 6px 6px rgba(0,0,0,0.2);
-		 overflow: hidden;
-		 position: relative;
+		border: 6px solid var(--stroke);
+		box-shadow: inset 6px 6px rgba(0,0,0,0.2);
+		overflow: hidden;
+		position: relative;
 	}
 	
 	#overlappingDiv {
@@ -296,5 +292,9 @@
 	 margin-top: -3px;
 	 display: block;
 	 color: var(--stroke);
+	}
+
+	.body-legenda{
+		display: none;
 	}
 }

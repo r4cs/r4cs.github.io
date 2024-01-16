@@ -7,6 +7,35 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Estilo do contêiner popup-container */
+			.popup-container {
+				position: fixed;
+				top: 10%;
+				left: 10%;
+				width: 80%;
+				height: 80%;
+				display: flex;
+				flex-direction: column;
+				background-color: #fff;
+				z-index: 10;
+			}
+
+			/* Estilo do botão de fechar */
+			.close-button {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				cursor: pointer;
+			}
+
+			/* Estilo do iframe para ocupar 100% do contêiner */
+			.popup-container iframe {
+				width: 100%;
+				height: 100%;
+				border: 0;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -79,106 +108,11 @@
 						</div>
 					</section>
 
-					<div id="dtStudio" class="popup-container">
+					<div id="dtStudio" class="popup-container" style="display: none">
 						<span class="close-button" onclick="closePopup('dtStudio')">X</span>
-						<iframe width="600" height="350" src="https://lookerstudio.google.com/embed/reporting/c882de8d-ffd9-4b82-9f4a-662f2f1ecc1d/page/p_qlgbdz8uvc" frameborder="0" style="border:0" allowfullscreen></iframe>
+						<iframe src="https://lookerstudio.google.com/embed/reporting/c882de8d-ffd9-4b82-9f4a-662f2f1ecc1d/page/p_qlgbdz8uvc" allowfullscreen=""></iframe>
 					</div>
 				</div>
-							<!-- Main -->
-<!--					<div id="main">-->
-
-<!--						&lt;!&ndash; Two &ndash;&gt;-->
-
-<!--							<section id="two" class="spotlights">-->
-
-<!--								<section>-->
-<!--									<div class="box alt">-->
-<!--										<div class="row gtr-50 gtr-uniform">-->
-<!--											<div class="col-6">-->
-<!--												<span class="image fit"> -->
-<!--													<a href="data-studio.html" class="image">-->
-<!--														<img src="images/pic08.jpg" alt="" data-position="center center" />-->
-<!--													</a> -->
-<!--												</span> -->
-<!--											</div>-->
-<!--											<div class="col-6" style="align-self: center; padding-left: 100px"> -->
-<!--												<span class="image fit"> -->
-<!--													<div class="content">-->
-<!--														<div class="inner">-->
-<!--															<header class="major">-->
-<!--																<h3>Google Data Studio</h3>-->
-<!--															</header>-->
-<!--															<p>Analytic Dashboads for E-Commerce: sales, products and SEO</p>-->
-<!--															<ul class="actions">-->
-<!--																<li><a href="data-studio.html" class="button">more</a></li>-->
-<!--															</ul>-->
-<!--														</div>-->
-<!--													</div> -->
-<!--												</span>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</section>-->
-
-<!--								<section>-->
-<!--									<div class="box alt">-->
-<!--										<div class="row gtr-50 gtr-uniform">-->
-<!--											<div class="col-6" style="align-self: center; padding-left: 100px;">-->
-<!--													<div class="content">-->
-<!--														<div class="inner">-->
-<!--															<header class="major">-->
-<!--																<h3>Kaggle</h3>-->
-<!--															</header>-->
-<!--															<p>Code, Storytelling and solutions</p>-->
-<!--															<ul class="actions">-->
-<!--																<li><a href="kaggle-samples.html" class="button">more</a></li>-->
-<!--															</ul>-->
-<!--														</div>-->
-<!--													</div> -->
-<!--											</div>-->
-<!--											<div class="col-6"> -->
-<!--												<span class="image fit"> -->
-<!--													<a href="https://www.kaggle.com/allhandsonthebadone/code" class="image">-->
-<!--														<img src="images/pic08.jpg" alt="" data-position="center center" />-->
-<!--													</a> -->
-<!--												</span> -->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</section>-->
-
-<!--								<section>-->
-<!--									<div class="box alt">-->
-<!--										<div class="row gtr-50 gtr-uniform">-->
-<!--											<div class="col-6">-->
-<!--												<span class="image fit"> -->
-<!--													&lt;!&ndash; <a href="#" class="image"> &ndash;&gt;-->
-<!--														<img src="images/pic08.jpg" alt="" data-position="center center" />-->
-<!--													&lt;!&ndash; </a>  &ndash;&gt;-->
-<!--												</span> -->
-<!--											</div>-->
-<!--											<div class="col-6" style="align-self: center; padding-left: 100px"> -->
-<!--												<span class="image fit"> -->
-<!--													<div class="content">-->
-<!--														<div class="inner">-->
-<!--															<header class="major">-->
-<!--																<h3>Google Looker</h3>-->
-<!--															</header>-->
-<!--															<p>soon</p>-->
-<!--															<ul class="actions">-->
-<!--																<li>-->
-<!--																	&lt;!&ndash; <a href="#" class="button">more</a> &ndash;&gt;-->
-<!--																</li>-->
-<!--															</ul>-->
-<!--														</div>-->
-<!--													</div> -->
-<!--												</span>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</section>-->
-<!--							</section>-->
-<!--					</div>-->
 
 				<!-- Contact -->
 					<section id="contact">

@@ -6,34 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/popUps.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-    <style>
-        .popup-container {
-            position: fixed;
-            top: 10%;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
-            z-index: 10;
-        }
 
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
-        /* Estilo do iframe para ocupar 100% do contêiner */
-        .popup-container iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-    </style>
 </head>
 <body class="is-preload">
 
@@ -53,12 +28,12 @@
         <ul class="links">
             <li><a href="index.html">Home</a></li>
             <li><a href="https://github.com/r4cs">Git Repositories</a></li>
-            <li><a href="ipo_aLinkToTheFuture/index.html">IPO - a link to the future</a></li>
+            <li><a href="ipo_aLinkToTheFuture/index-ipo.html">IPO - a link to the future</a></li>
             <li><a href="data-analysis.html">Data Analysis</a></li>
             <li><a href="#">SQL and DB Management</a></li>
         </ul>
         <ul class="actions stacked">
-            <li><a href="data-analysis.html" class="button primary fit">LinkedIn Profile</a></li>
+            <li><a href="linkedin.com/in/raquelCalmon" class="button fit">LinkedIn Profile</a></li>
             <li><a href="data-analysis.html" class="button fit">Kaggle Profile</a></li>
             <li><a href="https://www.hackerrank.com/rctguzansky" class="button fit">Hacker Rank Profile</a></li>
         </ul>
@@ -67,13 +42,10 @@
     <!-- Banner -->
     <section id="banner" class="style2">
         <div class="inner">
-            <!-- 							<span class="image">
-                                            <img src="images/pic07.jpg" alt="" />
-                                        </span> -->
             <header class="major">
-								<span class="image">
-									<img src="images/pic07.jpg" alt="" />
-								</span>
+                <span class="image">
+                    <img src="images/pic07.jpg" alt="" />
+                </span>
                 <h1>React</h1>
             </header>
             <div class="content">
@@ -107,16 +79,17 @@
             </div>
         </section>
 
-        <div id="organo" class="popup-container" style="display: none">
-            <span class="close-button" onclick="closePopup('organo')">X</span>
-            <iframe src="https://organo-khaki-beta.vercel.app/" allowfullscreen=""></iframe>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay">
+            <div id="organo" class="popup-container" style="display: none">
+                <span class="close-button" onclick="closePopup('organo')">X</span>
+                <iframe src="https://organo-khaki-beta.vercel.app/" allowfullscreen=""></iframe>
+            </div>
+            <div id="react-concepts" class="popup-container" style="display: none">
+                <span class="close-button" onclick="closePopup('react-concepts')">X</span>
+                <iframe src="https://react-concepts-olive.vercel.app/" allowfullscreen=""></iframe>
+            </div>
         </div>
-        <div id="react-concepts" class="popup-container" style="display: none">
-            <span class="close-button" onclick="closePopup('react-concepts')">X</span>
-            <iframe src="https://react-concepts-olive.vercel.app/" allowfullscreen=""></iframe>
-        </div>
-
-
 <!--        <div id="all-food" class="popup-container" style="display: none">-->
 <!--            <span class="close-button" onclick="closePopup('all-food')">X</span>-->
 <!--            <iframe src="#" allowfullscreen=""></iframe>-->
@@ -137,7 +110,6 @@
         </div>
     </footer>
 
-</div>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

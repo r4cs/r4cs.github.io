@@ -12,6 +12,25 @@
 		$header = $('#header'),
 		$banner = $('#banner');
 
+	// Include HTML Components
+	document.addEventListener("DOMContentLoaded", function() {
+		includeHTML();
+	});
+
+	function includeHTML() {
+		let elements = document.querySelectorAll('[data-include]');
+		elements.forEach(async (element) => {
+			let file = element.getAttribute('data-include');
+			let response = await fetch(file);
+			if (response.ok) {
+				let content = await response.text();
+				element.innerHTML = content;
+			} else {
+				element.innerHTML = "Content not found.";
+			}
+		});
+	}
+
 	// Breakpoints.
 		breakpoints({
 			xlarge:    ['1281px',   '1680px'   ],
@@ -291,6 +310,7 @@
 
 				// Redirect.
 					window.setTimeout(function() {
+						window.location.href = href;
 						window.location.href = href;
 					}, 250);
 

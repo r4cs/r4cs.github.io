@@ -7,68 +7,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<style>
-			/* Estilo do contêiner popup-container */
-			.popup-container {
-				position: fixed;
-				top: 10%;
-				left: 10%;
-				width: 80%;
-				height: 80%;
-				display: flex;
-				flex-direction: column;
-				background-color: #fff;
-				z-index: 10;
-			}
-
-			/* Estilo do botão de fechar */
-			.close-button {
-				position: absolute;
-				top: 10px;
-				right: 10px;
-				cursor: pointer;
-			}
-
-			/* Estilo do iframe para ocupar 100% do contêiner */
-			.popup-container iframe {
-				width: 100%;
-				height: 100%;
-				border: 0;
-			}
-		</style>
 	</head>
+
 	<body class="is-preload">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
 
 				<!-- Header -->
-				<!-- Note: The "styleN" class below should match that of the banner element. -->
-					<header id="header" class="alt style2">
-						<a href="index.html" class="logo"><strong>r4cs</strong> <span>projects</span></a>
-						<nav>
-							<a href="#menu">Menu</a>
-						</nav>
-					</header>
-					
-				<!-- Menu -->
-					<nav id="menu">
-						<ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="https://github.com/r4cs">Git Repositories</a></li>
-							<li><a href="ipo_aLinkToTheFuture/index.html">IPO - a link to the future</a></li>
-							<li><a href="data-analysis.html">Data Analysis</a></li>
-							<li><a href="#">SQL and DB Management</a></li>
-						</ul>
-						<ul class="actions stacked">
-							<li><a href="data-analysis.html" class="button primary fit">LinkedIn Profile</a></li>
-							<li><a href="data-analysis.html" class="button fit">Kaggle Profile</a></li>
-							<li><a href="https://www.hackerrank.com/rctguzansky" class="button fit">Hacker Rank Profile</a></li>
-						</ul>
-					</nav>
+				<div data-include="header.html"></div>
 
 				<!-- Banner -->
-				<!-- Note: The "styleN" class below should match that of the header element. -->
 					<section id="banner" class="style2">
 						<div class="inner">
 <!-- 							<span class="image">
@@ -113,22 +62,10 @@
 						<iframe src="https://lookerstudio.google.com/embed/reporting/c882de8d-ffd9-4b82-9f4a-662f2f1ecc1d/page/p_qlgbdz8uvc" allowfullscreen=""></iframe>
 					</div>
 				</div>
+			</div>
 
 	<!-- Footer -->
-		<footer id="footer">
-			<div class="inner">
-				<ul class="icons">
-					<!-- 								<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-                                                    <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li> -->
-					<li><a href="www.instagram.com/rac_hell" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-					<li><a href="www.github.com/r4cs" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-					<li><a href="www.linkedin.com/in/raquelcalmon" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-				</ul>
-				<ul class="copyright">
-					<li>&copy; r4cs </li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-				</ul>
-			</div>
-		</footer>
+			<div data-include="footer.html"></div>
 
 
 		<!-- Scripts -->
@@ -139,7 +76,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-		<script src="assets/js/modals.js"></script>
+			<script src="assets/js/modals.js"></script>
 
 	</body>
 </html>

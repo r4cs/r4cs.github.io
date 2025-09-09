@@ -1,51 +1,60 @@
 class Dialogo {
-  constructor(tree) {
-      this.tree = tree;
-  }
+    constructor(tree) {
+        this.tree = tree;
+        this.sycamore = null;
 
-  initDialog() {
-    const options = {
-      speed: 1,
-      firstMessage: 'menu',
-      autoNext: true
-    };
-    
-    const sycamore = new Sycamore(this.tree, options);
+        this.typing = document.querySelector('.typing');
+        this.botText = document.querySelector('.bot-text');
+        this.answers = document.querySelector('.answers');
+        this.startBtn = document.getElementById("start-button");
+        this.quitBtn = document.getElementById("quit-button");
 
-    const typing = document.querySelector('.typing');
-    const botText = document.querySelector('.bot-text');
-    const answers = document.querySelector('.answers');
-    const startBtn = document.getElementById("start-button");
-    const quitBtn = document.getElementById("quit-button");
-    
-    let delay = 0;
-    
-    
-    
-    sycamore.on('typing', (wait) => {
-            console.log(`%cTyping for ${wait}ms...`, 'color: blue')
-            typing.classList.add('active')
-            botText.classList.remove('active')
-        })
+        this.startBtn.addEventListener('click', () => {
+            this.startBtn.style.display = "none";
+            this.quitBtn.style.display = 'flex';
+            if (this.sycamore) {
+                this.sycamore.init();
+            }
+        });
 
-        sycamore.on('message', (obj) => {
-            console.log(`%c${obj.text}`, 'color: red')
-            typing.classList.remove('active')
+        this.quitBtn.addEventListener('click', () => {
+            if (this.sycamore) {
+                this.sycamore.emitter.emit('finished');
+            }
+        });
+    }
 
-            botText.innerHTML = obj.text
-            botText.classList.add('active')
-        })
+    initDialog() {
+        const options = {
+            speed: 1,
+            firstMessage: 'menu',
+            autoNext: true
+        };
 
-        // when the question is asked, wait 2 seconds and call the answer() method with the first answer
-        sycamore.on('question', (obj) => {
+        if (!this.sycamore) {
+            this.sycamore = new Sycamore(this.tree, options);
+
+            this.sycamore.on('typing', (wait) => {
+                console.log(`%cTyping for ${wait}ms...`, 'color: blue')
+                this.typing.classList.add('active')
+                this.botText.classList.remove('active')
+            });
+
+            this.sycamore.on('message', (obj) => {
+                console.log(`%c${obj.text}`, 'color: red')
+                this.typing.classList.remove('active')
+                this.botText.innerHTML = obj.text
+                this.botText.classList.add('active')
+            });
+
+            this.sycamore.on('question', (obj) => {
             console.log(`%c${obj.question}`, 'color: red')
-            typing.classList.remove('active')
-
-            botText.innerHTML = obj.question
-            botText.classList.add('active')
-
+            this.typing.classList.remove('active')
+            this.botText.innerHTML = obj.question
+            this.botText.classList.add('active')
 
             if (obj.answers) {
+                this.answers.innerHTML = '';
                 obj.answers.forEach((answer) => {
                     let answerElm = document.createElement('div')
                     answerElm.style.width = ("90%")
@@ -54,18 +63,17 @@ class Dialogo {
                     answerElm.classList.add('answer')
                     answerElm.innerHTML = answer.text
 
-                    answers.appendChild(answerElm)
+                    this.answers.appendChild(answerElm)
 
                     setTimeout(() => {
                         answerElm.classList.add('active')
-                    }, delay)
+                    }, this.delay)
 
                     answerElm.addEventListener('click', () => {
-                        sycamore.answer(answer.text)
-                        answers.innerHTML = ''
-                        botText.classList.remove('active')
+                        this.sycamore.answer(answer.text)
+                        this.answers.innerHTML = ''
+                        this.botText.classList.remove('active')
                     })
-
                 })
             } else if (obj.input) {
                 let answerElm = document.createElement('div')
@@ -80,70 +88,36 @@ class Dialogo {
 
                 answerElm.appendChild(input)
                 answerElm.appendChild(button)
-                answers.appendChild(answerElm)
+                this.answers.appendChild(answerElm)
 
                 setTimeout(() => {
                     answerElm.classList.add('active')
-                }, delay)
+                }, this.delay)
 
                 button.addEventListener('click', () => {
                     if (input.value) {
-                        sycamore.answer(input.value)
-                        answers.innerHTML = ''
-                        botText.classList.remove('active')
+                        this.sycamore.answer(input.value)
+                        this.answers.innerHTML = ''
+                        this.botText.classList.remove('active')
                     }
                 })
             }
         })
-
-        sycamore.on('answered', (qa) => {
-            console.log('%cAnswer collected:', 'color: turquoise')
-            console.log(qa)
-        })
-
-        sycamore.on('delay', (delay) => {
-            console.log(`%cDelaying for ${delay}ms before asking next question...`, 'color: purple')
-        })
-
-        sycamore.on('update', (data) => {
-            console.log('%cUpdated collected data:', 'color: lightcoral')
-            console.log(data)
-        })
-
-        sycamore.on('finished', (data) => {
-//        sycamore.on('finished', (obj) => {
             
-            document.getElementById("dialog-modal").style.display = "none";
-          
-            const botText = document.querySelector('.bot-text');
-            botText.innerHTML = '';
-            botText.classList.remove('active');
-          
-            const answers = document.querySelector('.answers');
-            answers.innerHTML = '';
-            console.log('answers: ', answers)
+            this.sycamore.on('finished', (data) => {
+                document.getElementById("dialog-modal").style.display = "none";
+                this.botText.innerHTML = '';
+                this.botText.classList.remove('active');
+                this.answers.innerHTML = '';
+                this.quitBtn.style.display = 'none';
+                
+                this.sycamore.currentQuestion = null;
+                this.sycamore.conversationFinished = false;
 
-            quitBtn.style.display = 'none';
-          
-//            console.log('obj.question: ', obj.question )
-          
-            setTimeout(() => {
-                  console.log("end of conversation")
-            }, 1500)
-            data = null;
-            })
-        
-      startBtn.addEventListener('click', () => {
-
-          startBtn.style.display = "none";
-          quitBtn.style.display = 'flex';
-          sycamore.init();
-      });
-
-      quitBtn.addEventListener('click', () => {
-          sycamore.emitter.emit('finished');
-      });
-                                         
-}}
-
-
+                setTimeout(() => {
+                    console.log("end of conversation")
+                }, 1500)
+            });
+        }
+    }
+}

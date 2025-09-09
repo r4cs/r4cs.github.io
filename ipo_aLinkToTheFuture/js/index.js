@@ -18,17 +18,14 @@ const charactersMap = []
 for (let i = 0; i < charactersMapData.length; i += 100) {
   charactersMap.push(charactersMapData.slice(i, 100 + i))
 }
-console.log(charactersMap)
 
 
 const boundaries = [];
 const offset = {
-//	x: -4000, // começa perto do bot da praia
-//	y: -1600
+	// x: -4000, // começa perto do bot da praia
+	// y: -1600
   x: -1500, // comeca perto do bot dos limoes
   y: -1350
-  
-	
 };
 
 collisionsMap.forEach((row, i) => {
@@ -168,7 +165,6 @@ const foreground = new Sprite({
 });
 
 
-
 const keys = {
     w: {
         pressed: false
@@ -202,6 +198,7 @@ const renderables = [
 
 function animate() {
   const animationId = window.requestAnimationFrame(animate)
+
   renderables.forEach((renderable) => {
     renderable.draw()
   })
@@ -216,6 +213,7 @@ function animate() {
     checkForCharacterCollision({
       characters,
       player,
+      // characterOffset: { x: 0, y: 0 }
       characterOffset: { x: 0, y: 3 }
     })
 
@@ -346,7 +344,10 @@ function animate() {
 
 animate();
 
-// Adicione um objeto para mapear as teclas correspondentes aos botões
+// Variavel global mapeando a ultima direcao clicada
+let lastDirectionClicked = '';
+
+// Objeto para mapear as teclas correspondentes aos botoes
 const buttonMappings = {
     'arrow-top': 'w',
     'arrow-left': 'a',
@@ -360,7 +361,15 @@ const buttonMappings = {
 function handleButtonClick(button) {
     const key = buttonMappings[button];
     if (key) {
-        simulateKeyPress(key);
+        if (lastDirectionClicked === key) {
+            // Se o usuário clicar na mesma direção, pare o movimento
+            simulateKey('keyup', key);
+            lastDirectionClicked = ''; // Limpa a última direção
+        } else {
+            // Se for uma nova direção, inicie o movimento
+            simulateKey('keydown', key);
+            lastDirectionClicked = key; // Armazena a nova direção
+        }
     }
 }
 
@@ -370,9 +379,9 @@ buttonElements.forEach(button => {
     button.addEventListener('click', () => handleButtonClick(button.classList[0]));
 });
 
-// Função para simular pressionamento de tecla
-function simulateKeyPress(key) {
-    const event = new KeyboardEvent('keydown', { key: key });
+// Função para simular eventos de teclado (pressionar ou soltar)
+function simulateKey(eventType, key) {
+    const event = new KeyboardEvent(eventType, { key: key });
     window.dispatchEvent(event);
 }
 
@@ -381,80 +390,68 @@ let lastKey = ''
 window.addEventListener('keydown', handleKeyDown);
 window.addEventListener('keyup', handleKeyUp);
 
+const dialogo = new Dialogo(menu);
+dialogo.initDialog(); // configurar a instância do Sycamore pela 1a vez.
+
 
 function handleKeyDown(e) {
-    window.addEventListener('keydown', (e) => {
-        switch (e.key) {
-            case ' ':
-                if (!player.interactionAsset) return
+    switch (e.key) {
+        case ' ':
+            if (!player.interactionAsset) return
 
-                if (!player.interactionAsset.character.dialogue) {
-                    console.log("player.interactionAsset: ", player.interactionAsset)
-                    console.log("characters: ", characters)
+            if (!player.interactionAsset.character.dialogue) {
+                console.log("player.interactionAsset: ", player.interactionAsset)
 
+                var modal = document.getElementById("dialog-modal");
+                modal.style.display = "flex";
 
-                    var modal = document.getElementById("dialog-modal");
-                    modal.style.display = "flex";
-
-                    if ( !player.interactionAsset.character.dialogue ) {
-                        const startBtn = document.querySelector("#start-button")
-                        startBtn.style.display = "flex";
-                        const dialogo = new Dialogo(menu);
-
-                        startBtn.addEventListener("click", () => {
-                            dialogo.initDialog();
-                        })
-                    }
-
-                } else {
-                    console.log('entrou em NPC');
-                    // beginning the conversation
-                    const firstMessage = player.interactionAsset.character.dialogue[0]
-                    document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-                    document.querySelector('#characterDialogueBox').style.display = 'flex'
-                    player.isInteracting = true
+                if ( !player.interactionAsset.character.dialogue ) {
+                    const startBtn = document.querySelector("#start-button")
+                    startBtn.style.display = "flex";
                 }
-                break
 
-            case 'w':
-                keys.w.pressed = true
-                lastKey = 'w'
-                break
-            case 'a':
-                keys.a.pressed = true
-                lastKey = 'a'
-                break
+            } else {
+                console.log('entrou em NPC');
+                // beginning the conversation
+                const firstMessage = player.interactionAsset.character.dialogue[0]
+                document.querySelector('#characterDialogueBox').innerHTML = firstMessage
+                document.querySelector('#characterDialogueBox').style.display = 'flex'
+                player.isInteracting = true
+            }
+            break
 
-            case 's':
-                keys.s.pressed = true
-                lastKey = 's'
-                break
-
-            case 'd':
-                keys.d.pressed = true
-                lastKey = 'd'
-                break
-        }
-    })
+        case 'w':
+            keys.w.pressed = true
+            lastKey = 'w'
+            break
+        case 'a':
+            keys.a.pressed = true
+            lastKey = 'a'
+            break
+        case 's':
+            keys.s.pressed = true
+            lastKey = 's'
+            break
+        case 'd':
+            keys.d.pressed = true
+            lastKey = 'd'
+            break
+    }
 }
 
 function handleKeyUp(e) {
-    window.addEventListener('keyup', (e) => {
-        switch (e.key) {
-            case 'w':
-                keys.w.pressed = false
-                break
-            case 'a':
-                keys.a.pressed = false
-                break
-            case 's':
-                keys.s.pressed = false
-                break
-            case 'd':
-                keys.d.pressed = false
-                break
-        }
-    })
+    switch (e.key) {
+        case 'w':
+            keys.w.pressed = false
+            break
+        case 'a':
+            keys.a.pressed = false
+            break
+        case 's':
+            keys.s.pressed = false
+            break
+        case 'd':
+            keys.d.pressed = false
+            break
+    }
 }
-
-

@@ -10,7 +10,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 function checkForCharacterCollision({
   characters,
   player,
-  characterOffset = { x: 0, y: 0 }
+  interactionOffset = { x: 0, y: 0 }
 }) {
   player.interactionAsset = null;
   // monitor for character collision
@@ -24,8 +24,8 @@ function checkForCharacterCollision({
         rectangle2: {
           ...character,
           position: {
-            x: character.position.x + characterOffset.x,
-            y: character.position.y + characterOffset.y
+            x: character.position.x + interactionOffset.x,
+            y: character.position.y + interactionOffset.y
           }
         }
       })
@@ -41,7 +41,7 @@ function checkForCharacterCollision({
 //function checkForCharacterCollision({
 //  characters,
 //  player,
-//  characterOffset = { x: 0, y: 0 }
+//  interactionOffset = { x: 0, y: 0 }
 //}) {
 //  player.interactionAsset = null
 //  // monitor for character collision
@@ -54,8 +54,8 @@ function checkForCharacterCollision({
 //        rectangle2: {
 //          ...character,
 //          position: {
-//            x: character.position.x + characterOffset.x,
-//            y: character.position.y + characterOffset.y
+//            x: character.position.x + interactionOffset.x,
+//            y: character.position.y + interactionOffset.y
 //          }
 //        }
 //      })

@@ -1,6 +1,6 @@
 class Dialogo {
-    constructor(tree) {
-        this.tree = tree;
+    constructor(dialogTree) {
+        this.dialogTree = dialogTree;
         this.sycamore = null;
 
         this.typing = document.querySelector('.typing');
@@ -32,7 +32,7 @@ class Dialogo {
         };
 
         if (!this.sycamore) {
-            this.sycamore = new Sycamore(this.tree, options);
+            this.sycamore = new Sycamore(this.dialogTree, options);
 
             this.sycamore.on('typing', (wait) => {
                 console.log(`%cTyping for ${wait}ms...`, 'color: blue')
@@ -40,63 +40,63 @@ class Dialogo {
                 this.botText.classList.remove('active')
             });
 
-            this.sycamore.on('message', (obj) => {
-                console.log(`%c${obj.text}`, 'color: red')
+            this.sycamore.on('message', (objMessageData) => {
+                console.log(`%c${objMessageData.text}`, 'color: red')
                 this.typing.classList.remove('active')
-                this.botText.innerHTML = obj.text
+                this.botText.innerHTML = objMessageData.text
                 this.botText.classList.add('active')
             });
 
-            this.sycamore.on('question', (obj) => {
-            console.log(`%c${obj.question}`, 'color: red')
+            this.sycamore.on('question', (objMessageData) => {
+            console.log(`%c${objMessageData.question}`, 'color: red')
             this.typing.classList.remove('active')
-            this.botText.innerHTML = obj.question
+            this.botText.innerHTML = objMessageData.question
             this.botText.classList.add('active')
 
-            if (obj.answers) {
+            if (objMessageData.answers) {
                 this.answers.innerHTML = '';
-                obj.answers.forEach((answer) => {
-                    let answerElm = document.createElement('div')
-                    answerElm.style.width = ("90%")
-                    answerElm.style.margin = ("3px")
-                    answerElm.classList.add('bubble')
-                    answerElm.classList.add('answer')
-                    answerElm.innerHTML = answer.text
+                objMessageData.answers.forEach((answer) => {
+                    let answerElment = document.createElement('div')
+                    answerElment.style.width = ("90%")
+                    answerElment.style.margin = ("3px")
+                    answerElment.classList.add('bubble')
+                    answerElment.classList.add('answer')
+                    answerElment.innerHTML = answer.text
 
-                    this.answers.appendChild(answerElm)
+                    this.answers.appendChild(answerElment)
 
                     setTimeout(() => {
-                        answerElm.classList.add('active')
+                        answerElment.classList.add('active')
                     }, this.delay)
 
-                    answerElm.addEventListener('click', () => {
+                    answerElment.addEventListener('click', () => {
                         this.sycamore.answer(answer.text)
                         this.answers.innerHTML = ''
                         this.botText.classList.remove('active')
                     })
                 })
-            } else if (obj.input) {
-                let answerElm = document.createElement('div')
-                answerElm.classList.add('bubble')
-                answerElm.classList.add('answer')
+            } else if (objMessageData.input) {
+                let answerElment = document.createElement('div')
+                answerElment.classList.add('bubble')
+                answerElment.classList.add('answer')
 
-                let input = document.createElement('input')
-                input.setAttribute('placeholder', obj.input.label)
+                let inputField = document.createElement('input')
+                inputField.setAttribute('placeholder', objMessageData.input.label)
 
-                let button = document.createElement('button')
-                button.innerHTML = 'Submit'
+                let submitButton = document.createElement('button')
+                submitButton.innerHTML = 'Submit'
 
-                answerElm.appendChild(input)
-                answerElm.appendChild(button)
-                this.answers.appendChild(answerElm)
+                answerElment.appendChild(inputField)
+                answerElment.appendChild(submitButton)
+                this.answers.appendChild(answerElment)
 
                 setTimeout(() => {
-                    answerElm.classList.add('active')
+                    answerElment.classList.add('active')
                 }, this.delay)
 
-                button.addEventListener('click', () => {
-                    if (input.value) {
-                        this.sycamore.answer(input.value)
+                submitButton.addEventListener('click', () => {
+                    if (inputField.value) {
+                        this.sycamore.answer(inputField.value)
                         this.answers.innerHTML = ''
                         this.botText.classList.remove('active')
                     }
@@ -104,7 +104,7 @@ class Dialogo {
             }
         })
             
-            this.sycamore.on('finished', (data) => {
+            this.sycamore.on('finished', (conversationData) => {
                 document.getElementById("dialog-modal").style.display = "none";
                 this.botText.innerHTML = '';
                 this.botText.classList.remove('active');

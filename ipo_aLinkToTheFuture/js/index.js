@@ -2,7 +2,7 @@ console.log("Rodando The Legend of IPO - A link to the future");
 
 const canvas = document.querySelector("canvas");
 
-const c = canvas.getContext("2d");
+const canvasContext = canvas.getContext("2d");
 
 
 canvas.width = 1024;
@@ -182,13 +182,13 @@ const keys = {
 };
 
 
-const movables = [
+const movableEntities = [
 	background, 
 	...boundaries, 
 	foreground, 
 	...characters];
 
-const renderables = [
+const renderableEntities = [
 	background, 
 	...boundaries, 
 	...characters.filter(character => character != 87904),
@@ -199,14 +199,14 @@ const renderables = [
 function animate() {
   const animationId = window.requestAnimationFrame(animate)
 
-  renderables.forEach((renderable) => {
+  renderableEntities.forEach((renderable) => {
     renderable.draw()
   })
 
   let moving = true
   player.animate = false
   
-    if (keys.w.pressed && lastKey === 'w') {
+    if (keys.w.pressed && lastPressedKey === 'w') {
     player.animate = true
     player.image = player.sprites.up
 
@@ -237,10 +237,10 @@ function animate() {
     }
 
     if (moving)
-      movables.forEach((movable) => {
+      movableEntities.forEach((movable) => {
         movable.position.y += 3
       })
-  } else if (keys.a.pressed && lastKey === 'a') {
+  } else if (keys.a.pressed && lastPressedKey === 'a') {
     player.animate = true
     player.image = player.sprites.left
 
@@ -270,10 +270,10 @@ function animate() {
     }
 
     if (moving)
-      movables.forEach((movable) => {
+      movableEntities.forEach((movable) => {
         movable.position.x += 3
       })
-  } else if (keys.s.pressed && lastKey === 's') {
+  } else if (keys.s.pressed && lastPressedKey === 's') {
     player.animate = true
     player.image = player.sprites.down
 
@@ -303,10 +303,10 @@ function animate() {
     }
 
     if (moving)
-      movables.forEach((movable) => {
+      movableEntities.forEach((movable) => {
         movable.position.y -= 3
       })
-  } else if (keys.d.pressed && lastKey === 'd') {
+  } else if (keys.d.pressed && lastPressedKey === 'd') {
     player.animate = true
     player.image = player.sprites.right
 
@@ -336,7 +336,7 @@ function animate() {
     }
 
     if (moving)
-      movables.forEach((movable) => {
+      movableEntities.forEach((movable) => {
         movable.position.x -= 3
       })
   }
@@ -385,7 +385,7 @@ function simulateKey(eventType, key) {
     window.dispatchEvent(event);
 }
 
-let lastKey = ''
+let lastPressedKey = ''
 
 window.addEventListener('keydown', handleKeyDown);
 window.addEventListener('keyup', handleKeyUp);
@@ -394,8 +394,8 @@ const dialogo = new Dialogo(menu);
 dialogo.initDialog(); // configurar a instância do Sycamore pela 1a vez.
 
 
-function handleKeyDown(e) {
-    switch (e.key) {
+function handleKeyDown(keyboardEvent) {
+    switch (keyboardEvent.key) {
         case ' ':
             if (!player.interactionAsset) return
 
@@ -422,25 +422,25 @@ function handleKeyDown(e) {
 
         case 'w':
             keys.w.pressed = true
-            lastKey = 'w'
+            lastPressedKey = 'w'
             break
         case 'a':
             keys.a.pressed = true
-            lastKey = 'a'
+            lastPressedKey = 'a'
             break
         case 's':
             keys.s.pressed = true
-            lastKey = 's'
+            lastPressedKey = 's'
             break
         case 'd':
             keys.d.pressed = true
-            lastKey = 'd'
+            lastPressedKey = 'd'
             break
     }
 }
 
-function handleKeyUp(e) {
-    switch (e.key) {
+function handleKeyUp(keyboardEvent) {
+    switch (keyboardEvent.key) {
         case 'w':
             keys.w.pressed = false
             break

@@ -27,7 +27,7 @@ class Dialogo {
     initDialog() {
         const options = {
             speed: 1,
-            firstMessage: 'menu',
+            firstMessage: 'mainMenuDialogue',
             autoNext: true
         };
 

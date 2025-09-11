@@ -1,41 +1,35 @@
 console.log("Rodando The Legend of IPO - A link to the future");
 
 const canvas = document.querySelector("canvas");
-
 const canvasContext = canvas.getContext("2d");
 
-
-canvas.width = 1024;
-canvas.height = 1000;
-
+canvas.width = CANVAS.WIDTH;
+canvas.height = CANVAS.HEIGHT;
 
 const collisionsMap = [];
-for (let i=0; i<collisions.length; i+=100) {
-    collisionsMap.push(collisions.slice(i, 100+i));
+for (let i = 0; i < collisions.length; i += 100) {
+    collisionsMap.push(collisions.slice(i, 100 + i));
 }
 
-const charactersMap = []
+const charactersMap = [];
 for (let i = 0; i < charactersMapData.length; i += 100) {
-  charactersMap.push(charactersMapData.slice(i, 100 + i))
+    charactersMap.push(charactersMapData.slice(i, 100 + i));
 }
-
 
 const boundaries = [];
 const offset = {
-	// x: -4000, // começa perto do bot da praia
-	// y: -1600
-  x: -1500, // comeca perto do bot dos limoes
-  y: -1350
+    x: MOVEMENT.OFFSET.X,
+    y: MOVEMENT.OFFSET.Y
 };
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        if (symbol === 95705) {
+        if (symbol === TILE.COLLISION) {
             boundaries.push(
                 new Boundary({
                     position: {
-                        x: j * Boundary.width + offset.x,
-                        y: i * Boundary.height + offset.y
+                        x: j * BOUNDARY.WIDTH + offset.x,
+                        y: i * BOUNDARY.HEIGHT + offset.y
                     }
                 })
             );
@@ -43,118 +37,116 @@ collisionsMap.forEach((row, i) => {
     });
 });
 
-
 const characters = [];
 
-const bot = new Image();
-bot.src = "./img/characters/Bob_phone_16x16.png";
+const bobSprite = new Image();
+bobSprite.src = "./img/characters/Bob_phone_16x16.png";
 
-const amelia = new Image();
-amelia.src = "./img/characters/Amelia_phone_16x16.png";
+const ameliaSprite = new Image();
+ameliaSprite.src = "./img/characters/Amelia_phone_16x16.png";
 
-  
 charactersMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 87906) {
-      characters.push(
-        new Character({
-          name: 'bob',
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          },
-          image: bot,          
-          frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
-          },
-          scale: 3, // tamanho
-          animate: true,
-          dialogue: null
-//          dialogue: menu
-        })
-      )
-    }
-    
-    if (symbol === 87904 | symbol === 87905 | symbol === 87907 | symbol === 87908 | symbol === 87909) {
-      characters.push(
-        new Character({
-          name: 'amelia',
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          },
-          image: amelia,
-          frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
-          },
-          scale: 3, // tamanho
-          animate: true,
-          dialogue: ['...', 'Perdi tudinho...']
-        })
-      )
-    }
-    if (symbol !== 0) {
-      boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          }
-        })
-      )
-    }
-  })
-})
+    row.forEach((symbol, j) => {
+        if (symbol === CHARACTER.BOB) {
+            characters.push(
+                new Character({
+                    name: 'bob',
+                    position: {
+                        x: j * BOUNDARY.WIDTH + offset.x,
+                        y: i * BOUNDARY.HEIGHT + offset.y
+                    },
+                    image: bobSprite,
+                    frames: {
+                        max: 9,
+                        hold: 10
+                    },
+                    scale: 3,
+                    animate: true,
+                    dialogue: null
+                })
+            );
+        }
+        
+        if (symbol === CHARACTER.AMELIA.BASE || 
+            symbol === CHARACTER.AMELIA.VARIANT_1 || 
+            symbol === CHARACTER.AMELIA.VARIANT_2 || 
+            symbol === CHARACTER.AMELIA.VARIANT_3 || 
+            symbol === CHARACTER.AMELIA.VARIANT_4) {
+            characters.push(
+                new Character({
+                    name: 'amelia',
+                    position: {
+                        x: j * BOUNDARY.WIDTH + offset.x,
+                        y: i * BOUNDARY.HEIGHT + offset.y
+                    },
+                    image: ameliaSprite,
+                    frames: {
+                        max: 9,
+                        hold: 10
+                    },
+                    scale: 3,
+                    animate: true,
+                    dialogue: ['...', 'Perdi tudinho...']
+                })
+            );
+        }
+        
+        if (symbol !== TILE.EMPTY) {
+            boundaries.push(
+                new Boundary({
+                    position: {
+                        x: j * BOUNDARY.WIDTH + offset.x,
+                        y: i * BOUNDARY.HEIGHT + offset.y
+                    }
+                })
+            );
+        }
+    });
+});
 
-
-const image = new Image();
-image.src = "./img/city/city.png";
+const backgroundImage = new Image();
+backgroundImage.src = "./img/city/city.png";
 
 const foregroundImage = new Image();
 foregroundImage.src = "./img/city/cityForeground.png";
 
-const playerDownImage = new Image();
-playerDownImage.src = "./img/player/playerDown.png";
+const playerDownSprite = new Image();
+playerDownSprite.src = "./img/player/playerDown.png";
 
-const playerUpImage = new Image();
-playerUpImage.src = "./img/player/playerUp.png";
+const playerUpSprite = new Image();
+playerUpSprite.src = "./img/player/playerUp.png";
 
-const playerLeftImage = new Image();
-playerLeftImage.src = "./img/player/payerLeft.png";
+const playerLeftSprite = new Image();
+playerLeftSprite.src = "./img/player/payerLeft.png";
 
-const playerRightImage = new Image();
-playerRightImage.src = "./img/player/playerRight.png";
-
+const playerRightSprite = new Image();
+playerRightSprite.src = "./img/player/playerRight.png";
 
 const player = new Sprite({
-  position: {
-    x: canvas.width / 2 - 192 / 4 / 2,
-    y: canvas.height / 2 - 68 / 2
-  },
-  image: playerDownImage,
-  frames: {
-    max: 3,
-    hold: 10
-  },
-  sprites: {
-    up: playerUpImage,
-    left: playerLeftImage,
-    right: playerRightImage,
-    down: playerDownImage
-  },
-})
-
+    position: {
+        x: canvas.width / 2 - 192 / 4 / 2,
+        y: canvas.height / 2 - 68 / 2
+    },
+    image: playerDownSprite,
+    frames: {
+        max: 3,
+        hold: 10
+    },
+    sprites: {
+        up: playerUpSprite,
+        left: playerLeftSprite,
+        right: playerRightSprite,
+        down: playerDownSprite
+    },
+});
 
 const background = new Sprite({
     position: {
         x: offset.x,
         y: offset.y
     },
-    image: image
+    image: backgroundImage
 });
-
 
 const foreground = new Sprite({
     position: {
@@ -164,190 +156,181 @@ const foreground = new Sprite({
     image: foregroundImage
 });
 
-
-const keys = {
-    w: {
-        pressed: false
-    },
-    a: {
-        pressed: false
-    },
-    s: {
-        pressed: false
-    },
-  
-    d: {
-        pressed: false
-    }
+const keyboardState = {
+    w: { pressed: false },
+    a: { pressed: false },
+    s: { pressed: false },
+    d: { pressed: false }
 };
 
-
 const movableEntities = [
-	background, 
-	...boundaries, 
-	foreground, 
-	...characters];
+    background,
+    ...boundaries,
+    foreground,
+    ...characters
+];
 
 const renderableEntities = [
-	background, 
-	...boundaries, 
-	...characters.filter(character => character != 87904),
-	player,
-	foreground];
-
+    background,
+    ...boundaries,
+    ...characters.filter(character => character !== CHARACTER.AMELIA.BASE),
+    player,
+    foreground
+];
 
 function animate() {
-  const animationId = window.requestAnimationFrame(animate)
+    const animationFrameId = window.requestAnimationFrame(animate);
 
-  renderableEntities.forEach((renderable) => {
-    renderable.draw()
-  })
+    renderableEntities.forEach((renderableEntity) => {
+        renderableEntity.draw();
+    });
 
-  let moving = true
-  player.animate = false
-  
-    if (keys.w.pressed && lastPressedKey === 'w') {
-    player.animate = true
-    player.image = player.sprites.up
+    let isMoving = true;
+    player.animate = false;
 
-    checkForCharacterCollision({
-      characters,
-      player,
-      // characterOffset: { x: 0, y: 0 }
-      characterOffset: { x: 0, y: 3 }
-    })
+    if (keyboardState.w.pressed && lastPressedKey === 'w') {
+        player.animate = true;
+        player.image = player.sprites.up;
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y + 3
+        checkForCharacterCollision({
+            characters,
+            player,
+            characterOffset: { x: 0, y: MOVEMENT.SPEED }
+        });
+
+        for (let boundaryIndex = 0; boundaryIndex < boundaries.length; boundaryIndex++) {
+            const boundary = boundaries[boundaryIndex];
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x,
+                            y: boundary.position.y + MOVEMENT.SPEED
+                        }
+                    }
+                })
+            ) {
+                isMoving = false;
+                break;
             }
-          }
-        })
-      ) {
-        moving = false
-        break
-      }
-    }
+        }
 
-    if (moving)
-      movableEntities.forEach((movable) => {
-        movable.position.y += 3
-      })
-  } else if (keys.a.pressed && lastPressedKey === 'a') {
-    player.animate = true
-    player.image = player.sprites.left
+        if (isMoving) {
+            movableEntities.forEach((movableEntity) => {
+                movableEntity.position.y += MOVEMENT.SPEED;
+            });
+        }
+    } else if (keyboardState.a.pressed && lastPressedKey === 'a') {
+        player.animate = true;
+        player.image = player.sprites.left;
 
-    checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 3, y: 0 }
-    })
+        checkForCharacterCollision({
+            characters,
+            player,
+            characterOffset: { x: MOVEMENT.SPEED, y: 0 }
+        });
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x + 3,
-              y: boundary.position.y
+        for (let boundaryIndex = 0; boundaryIndex < boundaries.length; boundaryIndex++) {
+            const boundary = boundaries[boundaryIndex];
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x + MOVEMENT.SPEED,
+                            y: boundary.position.y
+                        }
+                    }
+                })
+            ) {
+                isMoving = false;
+                break;
             }
-          }
-        })
-      ) {
-        moving = false
-        break
-      }
-    }
+        }
 
-    if (moving)
-      movableEntities.forEach((movable) => {
-        movable.position.x += 3
-      })
-  } else if (keys.s.pressed && lastPressedKey === 's') {
-    player.animate = true
-    player.image = player.sprites.down
+        if (isMoving) {
+            movableEntities.forEach((movableEntity) => {
+                movableEntity.position.x += MOVEMENT.SPEED;
+            });
+        }
+    } else if (keyboardState.s.pressed && lastPressedKey === 's') {
+        player.animate = true;
+        player.image = player.sprites.down;
 
-    checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: -3 }
-    })
+        checkForCharacterCollision({
+            characters,
+            player,
+            characterOffset: { x: 0, y: -MOVEMENT.SPEED }
+        });
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y - 3
+        for (let boundaryIndex = 0; boundaryIndex < boundaries.length; boundaryIndex++) {
+            const boundary = boundaries[boundaryIndex];
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x,
+                            y: boundary.position.y - MOVEMENT.SPEED
+                        }
+                    }
+                })
+            ) {
+                isMoving = false;
+                break;
             }
-          }
-        })
-      ) {
-        moving = false
-        break
-      }
-    }
+        }
 
-    if (moving)
-      movableEntities.forEach((movable) => {
-        movable.position.y -= 3
-      })
-  } else if (keys.d.pressed && lastPressedKey === 'd') {
-    player.animate = true
-    player.image = player.sprites.right
+        if (isMoving) {
+            movableEntities.forEach((movableEntity) => {
+                movableEntity.position.y -= MOVEMENT.SPEED;
+            });
+        }
+    } else if (keyboardState.d.pressed && lastPressedKey === 'd') {
+        player.animate = true;
+        player.image = player.sprites.right;
 
-    checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: -3, y: 0 }
-    })
+        checkForCharacterCollision({
+            characters,
+            player,
+            characterOffset: { x: -MOVEMENT.SPEED, y: 0 }
+        });
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x - 3,
-              y: boundary.position.y
+        for (let boundaryIndex = 0; boundaryIndex < boundaries.length; boundaryIndex++) {
+            const boundary = boundaries[boundaryIndex];
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x - MOVEMENT.SPEED,
+                            y: boundary.position.y
+                        }
+                    }
+                })
+            ) {
+                isMoving = false;
+                break;
             }
-          }
-        })
-      ) {
-        moving = false
-        break
-      }
-    }
+        }
 
-    if (moving)
-      movableEntities.forEach((movable) => {
-        movable.position.x -= 3
-      })
-  }
+        if (isMoving) {
+            movableEntities.forEach((movableEntity) => {
+                movableEntity.position.x -= MOVEMENT.SPEED;
+            });
+        }
+    }
 }
 
 animate();
 
-// Variavel global mapeando a ultima direcao clicada
 let lastDirectionClicked = '';
 
-// Objeto para mapear as teclas correspondentes aos botoes
 const buttonMappings = {
     'arrow-top': 'w',
     'arrow-left': 'a',
@@ -357,101 +340,93 @@ const buttonMappings = {
     'button-b': 'quit'
 };
 
-// Função para processar eventos de clique nos botões
 function handleButtonClick(button) {
     const key = buttonMappings[button];
     if (key) {
         if (lastDirectionClicked === key) {
-            // Se o usuário clicar na mesma direção, pare o movimento
             simulateKey('keyup', key);
-            lastDirectionClicked = ''; // Limpa a última direção
+            lastDirectionClicked = '';
         } else {
-            // Se for uma nova direção, inicie o movimento
             simulateKey('keydown', key);
-            lastDirectionClicked = key; // Armazena a nova direção
+            lastDirectionClicked = key;
         }
     }
 }
 
-// Adicione eventos de clique para os botões
 const buttonElements = document.querySelectorAll('.directions button, .buttons button');
 buttonElements.forEach(button => {
     button.addEventListener('click', () => handleButtonClick(button.classList[0]));
 });
 
-// Função para simular eventos de teclado (pressionar ou soltar)
 function simulateKey(eventType, key) {
-    const event = new KeyboardEvent(eventType, { key: key });
-    window.dispatchEvent(event);
+    const keyboardEvent = new KeyboardEvent(eventType, { key: key });
+    window.dispatchEvent(keyboardEvent);
 }
 
-let lastPressedKey = ''
+let lastPressedKey = '';
 
 window.addEventListener('keydown', handleKeyDown);
 window.addEventListener('keyup', handleKeyUp);
 
-const dialogo = new Dialogo(menu);
-dialogo.initDialog(); // configurar a instância do Sycamore pela 1a vez.
-
+const dialogo = new Dialogo(mainMenuDialogue);
+dialogo.initDialog();
 
 function handleKeyDown(keyboardEvent) {
     switch (keyboardEvent.key) {
         case ' ':
-            if (!player.interactionAsset) return
+            if (!player.interactionAsset) return;
 
             if (!player.interactionAsset.character.dialogue) {
-                console.log("player.interactionAsset: ", player.interactionAsset)
+                console.log("player.interactionAsset: ", player.interactionAsset);
 
                 var modal = document.getElementById("dialog-modal");
                 modal.style.display = "flex";
 
-                if ( !player.interactionAsset.character.dialogue ) {
-                    const startBtn = document.querySelector("#start-button")
+                if (!player.interactionAsset.character.dialogue) {
+                    const startBtn = document.querySelector("#start-button");
                     startBtn.style.display = "flex";
                 }
-
             } else {
                 console.log('entrou em NPC');
-                // beginning the conversation
-                const firstMessage = player.interactionAsset.character.dialogue[0]
-                document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-                document.querySelector('#characterDialogueBox').style.display = 'flex'
-                player.isInteracting = true
+                const firstMessage = player.interactionAsset.character.dialogue[0];
+                document.querySelector('#characterDialogueBox').innerHTML = firstMessage;
+                document.querySelector('#characterDialogueBox').style.display = 'flex';
+                player.isInteracting = true;
             }
-            break
+            break;
 
         case 'w':
-            keys.w.pressed = true
-            lastPressedKey = 'w'
-            break
+            keyboardState.w.pressed = true;
+            lastPressedKey = 'w';
+            break;
         case 'a':
-            keys.a.pressed = true
-            lastPressedKey = 'a'
-            break
+            keyboardState.a.pressed = true;
+            lastPressedKey = 'a';
+            break;
         case 's':
-            keys.s.pressed = true
-            lastPressedKey = 's'
-            break
+            keyboardState.s.pressed = true;
+            lastPressedKey = 's';
+            break;
         case 'd':
-            keys.d.pressed = true
-            lastPressedKey = 'd'
-            break
+            keyboardState.d.pressed = true;
+            lastPressedKey = 'd';
+            break;
     }
 }
 
 function handleKeyUp(keyboardEvent) {
     switch (keyboardEvent.key) {
         case 'w':
-            keys.w.pressed = false
-            break
+            keyboardState.w.pressed = false;
+            break;
         case 'a':
-            keys.a.pressed = false
-            break
+            keyboardState.a.pressed = false;
+            break;
         case 's':
-            keys.s.pressed = false
-            break
+            keyboardState.s.pressed = false;
+            break;
         case 'd':
-            keys.d.pressed = false
-            break
+            keyboardState.d.pressed = false;
+            break;
     }
 }

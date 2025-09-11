@@ -1,5 +1,5 @@
-var menu = [
-  {'id': 'menu',
+var mainMenuDialogue = [
+  {'id': 'mainMenuDialogue',
   'question': 'Escolha um tema!!',
   'answers': [
                 {'text': 'Entender o que é um IPO',
@@ -32,7 +32,7 @@ var menu = [
               'next':'pros-e-contras'},
     
               {'text':'Voltar ao menu principal',
-              'next':'menu'}
+              'next':'mainMenuDialogue'}
     
               ]
   },
@@ -70,7 +70,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -85,7 +85,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
     },
   
@@ -99,7 +99,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
     },
   
@@ -128,7 +128,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -142,7 +142,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -156,7 +156,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -185,7 +185,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -200,7 +200,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -215,7 +215,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -242,7 +242,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -256,7 +256,7 @@ var menu = [
                 'next':'entender'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   }, 
   
@@ -273,7 +273,7 @@ var menu = [
               'next':'riscos-e-oportunidades'},
     
               {'text':'voltar ao menu principal',
-              'next':'menu'}
+              'next':'mainMenuDialogue'}
               ]
   }, 
   
@@ -302,7 +302,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },
  
@@ -316,7 +316,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },
 {'id': 'numero-de-acoes-limitadas',
@@ -329,7 +329,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },  
 
@@ -358,7 +358,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },
 {'id': 'aguardar-estabilizar-acoes',
@@ -371,7 +371,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },
 {'id': 'avaliar-informacoes-financeiras-das-empresas',
@@ -384,7 +384,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
 },
 
@@ -408,7 +408,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
  },
  {
@@ -422,7 +422,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
   
@@ -433,7 +433,7 @@ var menu = [
                 'next':'quais-regulamentos-de-um-ipo'},
       
                {'text':'voltar ao menu principal',
-                'next':'menu'}
+                'next':'mainMenuDialogue'}
       
                 ]
     },
@@ -462,7 +462,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
    {'id': 'divulgar-informcoes-financeiras-e-negocios',
@@ -475,7 +475,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   },
    {'id': 'empresas-devem-cumprir-leis',
@@ -488,7 +488,7 @@ var menu = [
                 'next':'investir'},
      
                {'text':'voltar ao menu principal',
-                'next': 'menu'}
+                'next': 'mainMenuDialogue'}
               ]
   }
   

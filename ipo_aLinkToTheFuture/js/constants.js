@@ -49,3 +49,41 @@ const DIALOGUE = {
   INVESTMENT: 'investir',
   REGULATION: 'regulamentacao'
 };
+
+// ... constantes anteriores ...
+
+// Sprite variables (deve ser carregado após o constants.js)
+var bobSprite = new Image();
+bobSprite.src = "./img/characters/Bob_phone_16x16.png";
+
+var ameliaSprite = new Image();
+ameliaSprite.src = "./img/characters/Amelia_phone_16x16.png";
+
+var backgroundImage = new Image();
+backgroundImage.src = "./img/city/city.png";
+
+var foregroundImage = new Image();
+foregroundImage.src = "./img/city/cityForeground.png";
+
+var playerDownSprite = new Image();
+playerDownSprite.src = "./img/player/playerDown.png";
+
+var playerUpSprite = new Image();
+playerUpSprite.src = "./img/player/playerUp.png";
+
+var playerLeftSprite = new Image();
+playerLeftSprite.src = "./img/player/payerLeft.png";
+
+var playerRightSprite = new Image();
+playerRightSprite.src = "./img/player/playerRight.png";
+
+// Keyboard state
+var keyboardState = {
+    w: { pressed: false },
+    a: { pressed: false },
+    s: { pressed: false },
+    d: { pressed: false }
+};
+
+var lastPressedKey = '';
+var lastDirectionClicked = '';

@@ -28,17 +28,17 @@ class Sprite {
   }
 
   draw() {
-    canvasContext.save()
-    canvasContext.translate(
+    c.save()
+    c.translate(
       this.position.x + this.width / 2,
       this.position.y + this.height / 2
     )
-    canvasContext.rotate(this.rotation)
-    canvasContext.translate(
+    c.rotate(this.rotation)
+    c.translate(
       -this.position.x - this.width / 2,
       -this.position.y - this.height / 2
     )
-    canvasContext.globalAlpha = this.opacity
+    c.globalAlpha = this.opacity
 
     const crop = {
       position: {
@@ -58,7 +58,7 @@ class Sprite {
       height: this.image.height
     }
 
-    canvasContext.drawImage(
+    c.drawImage(
       this.image,
       crop.position.x,
       crop.position.y,
@@ -70,7 +70,7 @@ class Sprite {
       image.height * this.scale
     )
 
-    canvasContext.restore()
+    c.restore()
 
     if (!this.animate) return
 
@@ -97,9 +97,9 @@ class Boundary {
         this.height = 64; // pixels
     }
     draw() {
-       canvasContext.fillStyle = "rgba(255, 0, 0, 0.8)";
-        // canvasContext.fillStyle = "rgba(255, 0, 0, 0.0)";
-        canvasContext.fillRect(
+//        c.fillStyle = "rgba(255, 0, 0, 0.2)";
+        c.fillStyle = "rgba(255, 0, 0, 0.8)";
+        c.fillRect(
             this.position.x, 
             this.position.y,  
             this.width, 

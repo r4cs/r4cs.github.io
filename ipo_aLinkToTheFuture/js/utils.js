@@ -10,12 +10,13 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 function checkForCharacterCollision({
   characters,
   player,
-  interactionOffset = { x: 0, y: 0 }
+  characterOffset = { x: 0, y: 0 }
 }) {
   player.interactionAsset = null;
-  
+  // monitor for character collision
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i];
+    const characterValue = charactersMap[Math.floor((character.position.y - offset.y) / Boundary.height)][Math.floor((character.position.x - offset.x) / Boundary.width)];
 
     if (
       rectangularCollision({
@@ -23,14 +24,45 @@ function checkForCharacterCollision({
         rectangle2: {
           ...character,
           position: {
-            x: character.position.x + interactionOffset.x,
-            y: character.position.y + interactionOffset.y
+            x: character.position.x + characterOffset.x,
+            y: character.position.y + characterOffset.y
           }
         }
       })
     ) {
-      player.interactionAsset = { character };
+      // Verifica se o player possui um interactionAsset válido. Se existir, significa que o jogador colidiu com um personagem e pode iniciar uma interação.
+      player.interactionAsset = {character, characterValue};
       break;
     }
   }
 }
+
+
+//function checkForCharacterCollision({
+//  characters,
+//  player,
+//  characterOffset = { x: 0, y: 0 }
+//}) {
+//  player.interactionAsset = null
+//  // monitor for character collision
+//  for (let i = 0; i < characters.length; i++) {
+//    const character = characters[i]
+//
+//    if (
+//      rectangularCollision({
+//        rectangle1: player,
+//        rectangle2: {
+//          ...character,
+//          position: {
+//            x: character.position.x + characterOffset.x,
+//            y: character.position.y + characterOffset.y
+//          }
+//        }
+//      })
+//    ) {
+//      //  Verifica se o player possui um interactionAsset válido. Se existir, significa que o jogador colidiu com um personagem e pode iniciar uma interação.
+//      player.interactionAsset = character
+//      break
+//    }
+//  }
+//}

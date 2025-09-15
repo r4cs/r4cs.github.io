@@ -56,28 +56,28 @@ const DIALOGUE = {
 
 // Sprite variables (deve ser carregado após o constants.js)
 var bobSprite = new Image();
-bobSprite.src = "./img/characters/Bob_phone_16x16.png";
+bobSprite.src = "assets/img/characters/Bob_phone_16x16.png";
 
 var ameliaSprite = new Image();
-ameliaSprite.src = "./img/characters/Amelia_phone_16x16.png";
+ameliaSprite.src = "assets/img/characters/Amelia_phone_16x16.png";
 
 var backgroundImage = new Image();
-backgroundImage.src = "./img/city/city.png";
+backgroundImage.src = "assets/img/city/city.png";
 
 var foregroundImg = new Image();
-foregroundImg.src = "./img/city/cityForeground.png";
+foregroundImg.src = "assets/img/city/cityForeground.png";
 
 var playerDownSprite = new Image();
-playerDownSprite.src = "./img/player/playerDown.png";
+playerDownSprite.src = "assets/img/player/playerDown.png";
 
 var playerUpSprite = new Image();
-playerUpSprite.src = "./img/player/playerUp.png";
+playerUpSprite.src = "assets/img/player/playerUp.png";
 
 var playerLeftSprite = new Image();
-playerLeftSprite.src = "./img/player/payerLeft.png";
+playerLeftSprite.src = "assets/img/player/payerLeft.png";
 
 var playerRightSprite = new Image();
-playerRightSprite.src = "./img/player/playerRight.png";
+playerRightSprite.src = "assets/img/player/playerRight.png";
 
 // Keyboard state
 var keyboardState = {

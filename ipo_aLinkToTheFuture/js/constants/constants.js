@@ -1,3 +1,5 @@
+// js/constants/constants.js
+
 // Collision Tile IDs
 const TILE = {
   EMPTY: 0,

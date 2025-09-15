@@ -62,8 +62,8 @@ ameliaSprite.src = "./img/characters/Amelia_phone_16x16.png";
 var backgroundImage = new Image();
 backgroundImage.src = "./img/city/city.png";
 
-var foregroundImage = new Image();
-foregroundImage.src = "./img/city/cityForeground.png";
+var foregroundImg = new Image();
+foregroundImg.src = "./img/city/cityForeground.png";
 
 var playerDownSprite = new Image();
 playerDownSprite.src = "./img/player/playerDown.png";

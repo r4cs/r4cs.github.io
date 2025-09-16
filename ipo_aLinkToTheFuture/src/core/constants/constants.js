@@ -54,8 +54,6 @@ const DIALOGUE = {
 
 // ... constantes anteriores ... ??????????????? VERIFICAR
 
-// Exportar para uso global (se necessário)
-// implementacao collisions detector
 window.TILE = TILE;
 window.CHARACTER = CHARACTER;
 window.BOUNDARY = BOUNDARY;

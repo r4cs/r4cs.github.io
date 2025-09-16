@@ -9,6 +9,8 @@ canvas.height = CANVAS.HEIGHT;
 
 const inputHandler = new InputHandler();
 const collisionDetector = new CollisionDetector();
+// inclusao do dialogManager
+window.dialogManager = new DialogManager();
 
 // Tornar offset global para acesso do CollisionDetector
 window.offset = {
@@ -49,7 +51,7 @@ const characters = [];
 const bot = bobSprite;
 const amelia = ameliaSprite;
   
-charactersMap.forEach((row, i) => {
+window.charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === CHARACTER.BOB) {
       characters.push(
@@ -116,8 +118,9 @@ const playerUpImage = playerUpSprite;
 const playerLeftImage = playerLeftSprite;
 const playerRightImage = playerRightSprite;
 
-
-const player = new Sprite({
+// const player comentado para dialogMngr
+// const player = new Sprite({
+window.player = new Sprite({
   position: {
     x: canvas.width / 2 - 192 / 4 / 2,
     y: canvas.height / 2 - 68 / 2
@@ -166,31 +169,32 @@ const renderables = [
 	player,
 	foreground];
 
-  // Listener para tecla espaço separadamente
-  window.addEventListener('keydown', (e) => {
-      if (e.key === ' ') {
-          if (!player.interactionAsset) return
+  // Listener para tecla espaço 
+  // removido temporariamente oara testar DialogMngr
+  // window.addEventListener('keydown', (e) => {
+  //     if (e.key === ' ') {
+  //         if (!player.interactionAsset) return
 
-          if (!player.interactionAsset.character.dialogue) {
-              console.log("player.interactionAsset: ", player.interactionAsset)
-              console.log("characters: ", characters)
+  //         if (!player.interactionAsset.character.dialogue) {
+  //             console.log("player.interactionAsset: ", player.interactionAsset)
+  //             console.log("characters: ", characters)
 
-              var modal = document.getElementById("dialog-modal");
-              modal.style.display = "flex";
+  //             var modal = document.getElementById("dialog-modal");
+  //             modal.style.display = "flex";
 
-              if (!player.interactionAsset.character.dialogue) {
-                  const startBtn = document.querySelector("#start-button")
-                  startBtn.style.display = "flex";
-              }
-          } else {
-              console.log('entrou em NPC');
-              const firstMessage = player.interactionAsset.character.dialogue[0]
-              document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-              document.querySelector('#characterDialogueBox').style.display = 'flex'
-              player.isInteracting = true
-          }
-      }
-  });
+  //             if (!player.interactionAsset.character.dialogue) {
+  //                 const startBtn = document.querySelector("#start-button")
+  //                 startBtn.style.display = "flex";
+  //             }
+  //         } else {
+  //             console.log('entrou em NPC');
+  //             const firstMessage = player.interactionAsset.character.dialogue[0]
+  //             document.querySelector('#characterDialogueBox').innerHTML = firstMessage
+  //             document.querySelector('#characterDialogueBox').style.display = 'flex'
+  //             player.isInteracting = true
+  //         }
+  //     }
+  // });
 
   function animate() {
   const animationId = window.requestAnimationFrame(animate)

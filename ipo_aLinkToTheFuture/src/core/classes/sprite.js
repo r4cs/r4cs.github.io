@@ -1,6 +1,5 @@
 // js/classes/sprite.js
 
-
 import { canvasContext } from "../game.js";
 
 export class Sprite {

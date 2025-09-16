@@ -1,4 +1,7 @@
 // src/core/collision-detector.js
+
+import { BOUNDARY } from "./constants/constants";
+
 export class CollisionDetector {
     static rectangularCollision({ rectangle1, rectangle2 }) {
         return (

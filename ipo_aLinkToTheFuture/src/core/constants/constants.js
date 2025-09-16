@@ -1,4 +1,4 @@
-// js/constants/constants.js
+ // js/constants/constants.js
 
 // Collision Tile IDs
 const TILE = {
@@ -52,7 +52,7 @@ const DIALOGUE = {
   REGULATION: 'regulamentacao'
 };
 
-// ... constantes anteriores ...
+// ... constantes anteriores ... ??????????????? VERIFICAR
 
 // Sprite variables (deve ser carregado após o constants.js)
 var bobSprite = new Image();
@@ -78,14 +78,3 @@ playerLeftSprite.src = "assets/img/player/payerLeft.png";
 
 var playerRightSprite = new Image();
 playerRightSprite.src = "assets/img/player/playerRight.png";
-
-// Keyboard state
-var keyboardState = {
-    w: { pressed: false },
-    a: { pressed: false },
-    s: { pressed: false },
-    d: { pressed: false }
-};
-
-var lastPressedKey = '';
-var lastDirectionClicked = '';

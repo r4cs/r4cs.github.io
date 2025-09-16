@@ -8,6 +8,7 @@ const c = canvas.getContext("2d");
 canvas.width = CANVAS.WIDTH;
 canvas.height = CANVAS.HEIGHT;
 
+const inputHandler = new InputHandler();
 
 const collisionsMap = [];
 for (let i=0; i<collisions.length; i+=100) {
@@ -44,10 +45,8 @@ collisionsMap.forEach((row, i) => {
 
 
 const characters = [];
-
 const bot = bobSprite;
 const amelia = ameliaSprite;
-
   
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -153,9 +152,7 @@ const foreground = new Sprite({
     image: foregroundImage
 });
 
-
-
-const keys = keyboardState;
+// const keys = keyboardState;
 
 const movables = [
 	background, 
@@ -170,8 +167,34 @@ const renderables = [
 	player,
 	foreground];
 
+  // integracao input handler
+  // Adicionar listener para tecla espaço separadamente
+  window.addEventListener('keydown', (e) => {
+      if (e.key === ' ') {
+          if (!player.interactionAsset) return
 
-function animate() {
+          if (!player.interactionAsset.character.dialogue) {
+              console.log("player.interactionAsset: ", player.interactionAsset)
+              console.log("characters: ", characters)
+
+              var modal = document.getElementById("dialog-modal");
+              modal.style.display = "flex";
+
+              if (!player.interactionAsset.character.dialogue) {
+                  const startBtn = document.querySelector("#start-button")
+                  startBtn.style.display = "flex";
+              }
+          } else {
+              console.log('entrou em NPC');
+              const firstMessage = player.interactionAsset.character.dialogue[0]
+              document.querySelector('#characterDialogueBox').innerHTML = firstMessage
+              document.querySelector('#characterDialogueBox').style.display = 'flex'
+              player.isInteracting = true
+          }
+      }
+  });
+
+  function animate() {
   const animationId = window.requestAnimationFrame(animate)
   renderables.forEach((renderable) => {
     renderable.draw()
@@ -180,7 +203,11 @@ function animate() {
   let moving = true
   player.animate = false
   
-    if (keys.w.pressed && lastKey === 'w') {
+  // keys e lastKey agora vem de inputhandler
+  const keys = inputHandler.getKeys();
+  const lastKey = inputHandler.getLastKey();
+  
+  if (keys.w.pressed && lastKey === 'w') {
     player.animate = true
     player.image = player.sprites.up
 
@@ -315,111 +342,11 @@ function animate() {
   }
 }
 
-animate();
-
-// Adicione um objeto para mapear as teclas correspondentes aos botões
-const buttonMappings = {
-    'arrow-top': 'w',
-    'arrow-left': 'a',
-    'arrow-bottom': 's',
-    'arrow-right': 'd',
-    'button-a': ' ',
-    'button-b': 'quit'
-};
-
-// Função para processar eventos de clique nos botões
-function handleButtonClick(button) {
-    const key = buttonMappings[button];
-    if (key) {
-        simulateKeyPress(key);
-    }
-}
-
-// Adicione eventos de clique para os botões
-const buttonElements = document.querySelectorAll('.directions button, .buttons button');
-buttonElements.forEach(button => {
-    button.addEventListener('click', () => handleButtonClick(button.classList[0]));
-});
-
-// Função para simular pressionamento de tecla
-function simulateKeyPress(key) {
-    const event = new KeyboardEvent('keydown', { key: key });
-    window.dispatchEvent(event);
-}
-
-let lastKey = lastPressedKey;
-
-window.addEventListener('keydown', handleKeyDown);
-window.addEventListener('keyup', handleKeyUp);
-
+// Inicializar diálogo
 const dialogo = new Dialogo(mainMenuDialogue);
 dialogo.initDialog();
 
-function handleKeyDown(e) {
-    window.addEventListener('keydown', (e) => {
-        switch (e.key) {
-            case ' ':
-                if (!player.interactionAsset) return
+animate();
 
-                if (!player.interactionAsset.character.dialogue) {
-                    console.log("player.interactionAsset: ", player.interactionAsset)
-                    console.log("characters: ", characters)
 
-                    var modal = document.getElementById("dialog-modal");
-                    modal.style.display = "flex";
-
-                    if ( !player.interactionAsset.character.dialogue ) {
-                        const startBtn = document.querySelector("#start-button")
-                        startBtn.style.display = "flex";
-                    }
-
-                } else {
-                    console.log('entrou em NPC');
-                    // beginning the conversation
-                    const firstMessage = player.interactionAsset.character.dialogue[0]
-                    document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-                    document.querySelector('#characterDialogueBox').style.display = 'flex'
-                    player.isInteracting = true
-                }
-                break
-
-            case 'w':
-                keys.w.pressed = true
-                lastKey = 'w'
-                break
-            case 'a':
-                keys.a.pressed = true
-                lastKey = 'a'
-                break
-
-            case 's':
-                keys.s.pressed = true
-                lastKey = 's'
-                break
-
-            case 'd':
-                keys.d.pressed = true
-                lastKey = 'd'
-                break
-        }
-    })
-}
-
-function handleKeyUp(e) {
-    window.addEventListener('keyup', (e) => {
-        switch (e.key) {
-            case 'w':
-                keys.w.pressed = false
-                break
-            case 'a':
-                keys.a.pressed = false
-                break
-            case 's':
-                keys.s.pressed = false
-                break
-            case 'd':
-                keys.d.pressed = false
-                break
-        }
-    })
-}
+// fim integracao input handler

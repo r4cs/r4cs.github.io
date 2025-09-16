@@ -1,5 +1,5 @@
 // src/core/collision-detector.js
-class CollisionDetector {
+export class CollisionDetector {
     static rectangularCollision({ rectangle1, rectangle2 }) {
         return (
             rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&

@@ -1,5 +1,5 @@
 // src/core/input-handler.js
-class InputHandler {
+export class InputHandler {
     constructor() {
         this.keyboardState = {
             w: { pressed: false },

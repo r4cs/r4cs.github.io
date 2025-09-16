@@ -1,5 +1,6 @@
 // src/core/classes/dialogo.js
-class Dialogo {
+
+export class Dialogo {
     constructor(dialogTree) {
         this.dialogTree = dialogTree;
         this.sycamore = null;

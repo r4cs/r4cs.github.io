@@ -1,13 +1,13 @@
  // js/constants/constants.js
 
 // Collision Tile IDs
-const TILE = {
+export const TILE = {
   EMPTY: 0,
   COLLISION: 95705
 };
 
 // Character NPC IDs
-const CHARACTER = {
+export const CHARACTER = {
   NONE: 0,
   BOB: 87906,
   AMELIA: {
@@ -20,13 +20,13 @@ const CHARACTER = {
 };
 
 // Boundary dimensions
-const BOUNDARY = {
+export const BOUNDARY = {
   WIDTH: 64,
   HEIGHT: 64
 };
 
 // Player movement
-const MOVEMENT = {
+export const MOVEMENT = {
   SPEED: 3,
   OFFSET: {
     // X: -4000, // começa perto do bot da praia
@@ -37,13 +37,13 @@ const MOVEMENT = {
 };
 
 // Game canvas dimensions
-const CANVAS = {
+export const CANVAS = {
   WIDTH: 1024,
   HEIGHT: 1000
 };
 
 // Dialogue tree identifiers
-const DIALOGUE = {
+export const DIALOGUE = {
   MAIN_MENU: 'menu',
   UNDERSTANDING: 'entender',
   WHAT_IS_IPO: 'o-que-e-um-ipo',
@@ -52,36 +52,27 @@ const DIALOGUE = {
   REGULATION: 'regulamentacao'
 };
 
-// ... constantes anteriores ... ??????????????? VERIFICAR
-
-window.TILE = TILE;
-window.CHARACTER = CHARACTER;
-window.BOUNDARY = BOUNDARY;
-window.MOVEMENT = MOVEMENT;
-window.CANVAS = CANVAS;
-window.DIALOGUE = DIALOGUE;
-
 // Sprite variables (deve ser carregado após o constants.js)
-var bobSprite = new Image();
-bobSprite.src = "assets/img/characters/Bob_phone_16x16.png";
+export const bobSprite = new Image();
+bobSprite.src = "./assets/img/characters/Bob_phone_16x16.png";
 
-var ameliaSprite = new Image();
-ameliaSprite.src = "assets/img/characters/Amelia_phone_16x16.png";
+export const ameliaSprite = new Image();
+ameliaSprite.src = "./assets/img/characters/Amelia_phone_16x16.png";
 
-var backgroundImage = new Image();
-backgroundImage.src = "assets/img/city/city.png";
+export const backgroundImage = new Image();
+backgroundImage.src = "./assets/img/city/city.png";
 
-var foregroundImg = new Image();
-foregroundImg.src = "assets/img/city/cityForeground.png";
+export const foregroundImg = new Image();
+foregroundImg.src = "./assets/img/city/cityForeground.png";
 
-var playerDownSprite = new Image();
-playerDownSprite.src = "assets/img/player/playerDown.png";
+export const playerDownSprite = new Image();
+playerDownSprite.src = "./assets/img/player/playerDown.png";
 
-var playerUpSprite = new Image();
-playerUpSprite.src = "assets/img/player/playerUp.png";
+export const playerUpSprite = new Image();
+playerUpSprite.src = "./assets/img/player/playerUp.png";
 
-var playerLeftSprite = new Image();
-playerLeftSprite.src = "assets/img/player/payerLeft.png";
+export const playerLeftSprite = new Image();
+playerLeftSprite.src = "./assets/img/player/payerLeft.png";
 
-var playerRightSprite = new Image();
-playerRightSprite.src = "assets/img/player/playerRight.png";
+export const playerRightSprite = new Image();
+playerRightSprite.src = "./assets/img/player/playerRight.png";

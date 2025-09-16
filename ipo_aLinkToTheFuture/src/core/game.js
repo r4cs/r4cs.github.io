@@ -1,8 +1,45 @@
 console.log("Rodando The Legend of IPO - A link to the future");
 
+import { 
+  TILE, CHARACTER, BOUNDARY, MOVEMENT, CANVAS,
+  bobSprite, ameliaSprite, backgroundImage, foregroundImg,
+  playerDownSprite, playerUpSprite, playerLeftSprite, playerRightSprite
+} from './constants/constants.js';
+
+// 2. Import data
+import {collisions} from '../../assets/data/collisions.js';
+import { mainMenuDialogue } from '../../assets/data/dialogos.js';
+import {charactersMapData} from '../../assets/data/characters.js';
+
+// 3. Import classes
+import { Boundary } from './classes/boundary.js';
+import { Sprite } from './classes/sprite.js';
+import { Character } from './classes/characters.js';
+import { Dialogo } from './classes/dialogo.js';
+import { InputHandler } from './input-handler.js';
+import { CollisionDetector } from './collision-detector.js';
+import { DialogManager } from '../ui/dialog-manager.js';
+
+// 4. Tornar tudo global temporariamente
+window.TILE = TILE;
+window.CHARACTER = CHARACTER;
+// ... (todos os outros) 
+window.collisions = collisions;
+window.charactersMapData = charactersMapData;
+window.mainMenuDialogue = mainMenuDialogue;
+window.Boundary = Boundary;
+window.Sprite = Sprite;
+// ... (todas as classes)
+
+console.log("📦 All dependencies loaded for migration");
+
+
+console.log("📦 Constants loaded for migration");
+
+
 const canvas = document.querySelector("canvas");
 
-const canvasContext = canvas.getContext("2d");
+export const canvasContext = canvas.getContext("2d");
 
 canvas.width = CANVAS.WIDTH;
 canvas.height = CANVAS.HEIGHT;
@@ -169,33 +206,6 @@ const renderables = [
 	player,
 	foreground];
 
-  // Listener para tecla espaço 
-  // removido temporariamente oara testar DialogMngr
-  // window.addEventListener('keydown', (e) => {
-  //     if (e.key === ' ') {
-  //         if (!player.interactionAsset) return
-
-  //         if (!player.interactionAsset.character.dialogue) {
-  //             console.log("player.interactionAsset: ", player.interactionAsset)
-  //             console.log("characters: ", characters)
-
-  //             var modal = document.getElementById("dialog-modal");
-  //             modal.style.display = "flex";
-
-  //             if (!player.interactionAsset.character.dialogue) {
-  //                 const startBtn = document.querySelector("#start-button")
-  //                 startBtn.style.display = "flex";
-  //             }
-  //         } else {
-  //             console.log('entrou em NPC');
-  //             const firstMessage = player.interactionAsset.character.dialogue[0]
-  //             document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-  //             document.querySelector('#characterDialogueBox').style.display = 'flex'
-  //             player.isInteracting = true
-  //         }
-  //     }
-  // });
-
   function animate() {
   const animationId = window.requestAnimationFrame(animate)
   renderables.forEach((renderable) => {
@@ -227,37 +237,6 @@ const renderables = [
         movable.position.y += MOVEMENT.SPEED;
       });
     }
-    // checkForCharacterCollision({
-    //   characters,
-    //   player,
-    //   characterOffset: { x: 0, y: MOVEMENT.SPEED }
-    // })
-
-    // for (let i = 0; i < boundaries.length; i++) {
-    //   const boundary = boundaries[i]
-    //   if (
-    //     rectangularCollision({
-    //       rectangle1: player,
-    //       rectangle2: {
-    //         ...boundary,
-    //         position: {
-    //           x: boundary.position.x,
-    //           y: boundary.position.y + MOVEMENT.SPEED
-    //         }
-    //       }
-    //     })
-    //   ) {
-    //     moving = false
-    //     break
-    //   }
-    // }
-
-    // if (moving)
-    //   movables.forEach((movable) => {
-    //     movable.position.y += MOVEMENT.SPEED
-    //   })
-
-    // fim de comentado para testar collision detector
   } else if (keys.a.pressed && lastKey === 'a') {
     player.animate = true
     player.image = player.sprites.left
@@ -277,38 +256,6 @@ const renderables = [
         movable.position.x += MOVEMENT.SPEED;
       });
     }
-    // checkForCharacterCollision({
-    //   characters,
-    //   player,
-    //   characterOffset: { x: MOVEMENT.SPEED, y: 0 }
-    // })
-
-    // for (let i = 0; i < boundaries.length; i++) {
-    //   const boundary = boundaries[i]
-    //   if (
-    //     rectangularCollision({
-    //       rectangle1: player,
-    //       rectangle2: {
-    //         ...boundary,
-    //         position: {
-    //           x: boundary.position.x + MOVEMENT.SPEED,
-    //           y: boundary.position.y
-    //         }
-    //       }
-    //     })
-    //   ) {
-    //     moving = false
-    //     break
-    //   }
-    // }
-
-    // if (moving)
-    //   movables.forEach((movable) => {
-    //     movable.position.x += MOVEMENT.SPEED
-    //   })
-
-
-    // fim comentado para testar collision detector
   } else if (keys.s.pressed && lastKey === 's') {
     player.animate = true
     player.image = player.sprites.down
@@ -350,7 +297,17 @@ const renderables = [
   }
 }
 
-const dialogo = new Dialogo(mainMenuDialogue);
-dialogo.initDialog();
+// === EXPORT PARA MIGRAÇÃO GRADUAL === //
+export function initGame() {
+  console.log("🎮 Initializing game from game.js...");
+  
+  // Chamar a função animate() que já existe
+  animate();
+  
+  // Inicializar diálogo (já existente)
+  const dialogo = new Dialogo(mainMenuDialogue);
+  dialogo.initDialog();
+}
 
-animate();
+// Tornar função global temporariamente para acesso
+window.initGameLegacy = initGame;

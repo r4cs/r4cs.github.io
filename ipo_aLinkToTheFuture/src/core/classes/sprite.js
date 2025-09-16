@@ -1,5 +1,9 @@
 // js/classes/sprite.js
-class Sprite {
+
+
+import { canvasContext } from "../game.js";
+
+export class Sprite {
   constructor({
     position,
     velocity,

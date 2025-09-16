@@ -1,5 +1,7 @@
 // src/ui/dialog-manager.js
-class DialogManager {
+import { Dialogo } from "../core/classes/dialogo";
+
+export class DialogManager {
     constructor() {
         this.dialogModal = document.getElementById("dialog-modal");
         this.characterDialogueBox = document.getElementById('characterDialogueBox');

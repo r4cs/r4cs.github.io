@@ -54,6 +54,15 @@ const DIALOGUE = {
 
 // ... constantes anteriores ... ??????????????? VERIFICAR
 
+// Exportar para uso global (se necessário)
+// implementacao collisions detector
+window.TILE = TILE;
+window.CHARACTER = CHARACTER;
+window.BOUNDARY = BOUNDARY;
+window.MOVEMENT = MOVEMENT;
+window.CANVAS = CANVAS;
+window.DIALOGUE = DIALOGUE;
+
 // Sprite variables (deve ser carregado após o constants.js)
 var bobSprite = new Image();
 bobSprite.src = "assets/img/characters/Bob_phone_16x16.png";

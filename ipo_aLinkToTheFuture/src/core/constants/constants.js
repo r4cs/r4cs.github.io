@@ -93,6 +93,13 @@ export const SPRITE = {
   }
 };
 
+// ===== SPRITE DRAWING CONFIG =====
+export const SPRITE_DRAW = {
+  CENTER_DIVISOR: 2,     // Para this.width / 2
+  CROP_POSITION_Y: 0,    // y: 0 no crop
+  FRAME_INDEX_OFFSET: 1  // Para this.frames.max - 1
+};
+
 // ===== PLAYER POSITIONING =====
 export const PLAYER = {
   INITIAL_POSITION: {

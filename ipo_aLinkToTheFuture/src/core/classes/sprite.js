@@ -1,6 +1,7 @@
 // js/classes/sprite.js
 
 import { canvasContext } from "../canvas.js";
+import * as Constants from "../constants/constants.js"
 
 export class Sprite {
   constructor({

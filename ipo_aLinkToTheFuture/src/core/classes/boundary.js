@@ -1,6 +1,7 @@
 // js/classes/boundary.js
 
-import { canvasContext } from "../game.js";
+import { canvasContext } from "../canvas.js";
+
 
 export class Boundary {
 

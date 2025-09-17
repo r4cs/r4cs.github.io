@@ -12,6 +12,7 @@ import { mainMenuDialogue } from '../../assets/data/dialogos.js';
 import {charactersMapData} from '../../assets/data/characters.js';
 
 // 3. Import classes
+import { canvas, setupCanvas } from './canvas.js';
 import { Boundary } from './classes/boundary.js';
 import { Sprite } from './classes/sprite.js';
 import { Character } from './classes/characters.js';
@@ -20,29 +21,18 @@ import { InputHandler } from './input-handler.js';
 import { CollisionDetector } from './collision-detector.js';
 import { DialogManager } from '../ui/dialog-manager.js';
 
-// 4. Tornar tudo global temporariamente
+
 window.TILE = TILE;
 window.CHARACTER = CHARACTER;
-// ... (todos os outros) 
 window.collisions = collisions;
 window.charactersMapData = charactersMapData;
 window.mainMenuDialogue = mainMenuDialogue;
 window.Boundary = Boundary;
 window.Sprite = Sprite;
-// ... (todas as classes)
 
 console.log("📦 All dependencies loaded for migration");
 
-
-console.log("📦 Constants loaded for migration");
-
-
-const canvas = document.querySelector("canvas");
-
-export const canvasContext = canvas.getContext("2d");
-
-canvas.width = CANVAS.WIDTH;
-canvas.height = CANVAS.HEIGHT;
+setupCanvas(CANVAS.WIDTH, CANVAS.HEIGHT);
 
 const inputHandler = new InputHandler();
 const collisionDetector = new CollisionDetector();

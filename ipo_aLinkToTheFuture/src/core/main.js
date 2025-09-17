@@ -11,31 +11,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export {};
-
-// // src/core/main.js - FASE 1 (atualizado)
-// import { initGame } from './game.js';
-
-// console.log("🔄 Starting migration phase 1...");
-
-// // Verificar se constantes estão carregadas
-// function checkConstants() {
-//   if (!window.CANVAS) {
-//     console.error("❌ Constants not loaded!");
-//     return false;
-//   }
-//   console.log("✅ Constants loaded successfully");
-//   return true;
-// }
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   console.log("✅ DOM loaded");
-  
-//   if (checkConstants()) {
-//     console.log("🎮 Initializing game...");
-//     initGame();
-//   } else {
-//     console.error("❌ Failed to load game constants");
-//   }
-// });
-
-// export {};

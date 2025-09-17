@@ -24,14 +24,14 @@ const offset = {
 };
 
 const collisionsMap = [];
-for (let i=0; i<collisions.length; i+=100) {
-    collisionsMap.push(collisions.slice(i, 100+i));
+for (let i = 0; i < collisions.length; i += Constants.ARRAY.COLLISION_MAP_CHUNK_SIZE) {
+    collisionsMap.push(collisions.slice(i, Constants.ARRAY.COLLISION_MAP_CHUNK_SIZE + i));
 }
 
 // Tornar charactersMap global para acesso do CollisionDetector
 const charactersMap = [];
-for (let i = 0; i < charactersMapData.length; i += 100) {
-  charactersMap.push(charactersMapData.slice(i, 100 + i));
+for (let i = 0; i < charactersMapData.length; i += Constants.ARRAY.CHARACTER_MAP_CHUNK_SIZE) {
+  charactersMap.push(charactersMapData.slice(i, Constants.ARRAY.CHARACTER_MAP_CHUNK_SIZE + i));
 }
 
 const boundaries = [];
@@ -58,7 +58,7 @@ const amelia = Constants.ameliaSprite;
   
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === Constants.CHARACTER.BOB) {
+    if (symbol === Constants.CHARACTER_ID.BOB) {
       characters.push(
         new Character({
           name: 'bob',
@@ -68,21 +68,21 @@ charactersMap.forEach((row, i) => {
           },
           image: bot,          
           frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
+            max: Constants.SPRITE.CHARACTER.FRAME_COUNT, // quantidade de frames
+            hold: Constants.SPRITE.CHARACTER.FRAME_DELAY // tempo troca frames
           },
-          scale: 3, // tamanho
+          scale: Constants.SPRITE.CHARACTER.SCALE, // tamanho
           animate: true,
           dialogue: null
         })
       )
     }
     
-    if (symbol === Constants.CHARACTER.AMELIA.BASE || 
-        symbol === Constants.CHARACTER.AMELIA.VARIANT_1 || 
-        symbol === Constants.CHARACTER.AMELIA.VARIANT_2 || 
-        symbol === Constants.CHARACTER.AMELIA.VARIANT_3 || 
-        symbol === Constants.CHARACTER.AMELIA.VARIANT_4) {
+    if (symbol === Constants.CHARACTER_ID.AMELIA.BASE || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_1 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_2 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_3 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_4) {
       characters.push(
         new Character({
           name: 'amelia',
@@ -92,10 +92,10 @@ charactersMap.forEach((row, i) => {
           },
           image: amelia,
           frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
+            max: Constants.SPRITE.CHARACTER.FRAME_COUNT,
+            hold: Constants.SPRITE.CHARACTER.FRAME_DELAY
           },
-          scale: 3, // tamanho
+          scale: Constants.SPRITE.CHARACTER.SCALE, // tamanho
           animate: true,
           dialogue: ['...', 'Perdi tudinho...']
         })
@@ -125,13 +125,13 @@ const playerRightImage = Constants.playerRightSprite;
 
 const player = new Sprite({
   position: {
-    x: Constants.CANVAS.WIDTH / 2 - 192 / 4 / 2,
-    y: Constants.CANVAS.HEIGHT / 2 - 68 / 2
+    x: Constants.PLAYER.INITIAL_POSITION.X,
+    y: Constants.PLAYER.INITIAL_POSITION.Y
   },
   image: playerDownImage,
   frames: {
-    max: 3,
-    hold: 10
+    max: Constants.SPRITE.PLAYER.FRAME_COUNT,
+    hold: Constants.SPRITE.PLAYER.FRAME_DELAY
   },
   sprites: {
     up: playerUpImage,
@@ -171,99 +171,99 @@ const movables = [
 const renderables = [
 	background, 
 	...boundaries, 
-	...characters.filter(character => character != Constants.CHARACTER.AMELIA.BASE),
+	...characters.filter(character => character != Constants.CHARACTER_ID.AMELIA.BASE),
 	player,
 	foreground];
 
   function animate() {
-  const animationId = requestAnimationFrame(animate)
-  renderables.forEach((renderable) => {
-    renderable.draw()
-  })
+    const animationId = requestAnimationFrame(animate)
+    renderables.forEach((renderable) => {
+      renderable.draw()
+    })
 
-  let moving = true
-  player.animate = false
-  
-  const keys = inputHandler.getKeys();
-  const lastKey = inputHandler.getLastKey();
-  
-  if (keys.w.pressed && lastKey === 'w') {
-    player.animate = true
-    player.image = player.sprites.up
+    let moving = true
+    player.animate = false
+    
+    const keys = inputHandler.getKeys();
+    const lastKey = inputHandler.getLastKey();
+    
+    if (keys.w.pressed && lastKey === Constants.INPUT.KEYS.W) {
+      player.animate = true
+      player.image = player.sprites.up
 
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
-    });
-
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, Constants.MOVEMENT.SPEED
-    );
-
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.y += Constants.MOVEMENT.SPEED;
+      CollisionDetector.checkForCharacterCollision({
+        characters,
+        player,
+        characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
       });
-    }
-  } else if (keys.a.pressed && lastKey === 'a') {
-    player.animate = true
-    player.image = player.sprites.left
 
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
-    });
+      moving = !CollisionDetector.checkBoundaryCollision(
+        player, boundaries, 0, Constants.MOVEMENT.SPEED
+      );
 
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, Constants.MOVEMENT.SPEED, 0
-    );
+      if (moving) {
+        movables.forEach((movable) => {
+          movable.position.y += Constants.MOVEMENT.SPEED;
+        });
+      }
+    } else if (keys.a.pressed && lastKey === Constants.INPUT.KEYS.A) {
+      player.animate = true
+      player.image = player.sprites.left
 
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.x += Constants.MOVEMENT.SPEED;
+      CollisionDetector.checkForCharacterCollision({
+        characters,
+        player,
+        characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
       });
-    }
-  } else if (keys.s.pressed && lastKey === 's') {
-    player.animate = true
-    player.image = player.sprites.down
 
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED }
-    });
+      moving = !CollisionDetector.checkBoundaryCollision(
+        player, boundaries, Constants.MOVEMENT.SPEED, 0
+      );
 
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, -Constants.MOVEMENT.SPEED
-    );
+      if (moving) {
+        movables.forEach((movable) => {
+          movable.position.x += Constants.MOVEMENT.SPEED;
+        });
+      }
+    } else if (keys.s.pressed && lastKey === 's') {
+      player.animate = true
+      player.image = player.sprites.down
 
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.y -= Constants.MOVEMENT.SPEED;
+      CollisionDetector.checkForCharacterCollision({
+        characters,
+        player,
+        characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED}
       });
-    }
-  } else if (keys.d.pressed && lastKey === 'd') {
-    player.animate = true
-    player.image = player.sprites.right
 
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
-    });
+      moving = !CollisionDetector.checkBoundaryCollision(
+        player, boundaries, 0, -Constants.MOVEMENT.SPEED
+      );
 
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, -Constants.MOVEMENT.SPEED, 0
-    );
+      if (moving) {
+        movables.forEach((movable) => {
+          movable.position.y -= Constants.MOVEMENT.SPEED;
+        });
+      }
+    } else if (keys.d.pressed && lastKey === Constants.INPUT.KEYS.D) {
+      player.animate = true
+      player.image = player.sprites.right
 
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.x -= Constants.MOVEMENT.SPEED;
+      CollisionDetector.checkForCharacterCollision({
+        characters,
+        player,
+        characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
       });
+
+      moving = !CollisionDetector.checkBoundaryCollision(
+        player, boundaries, -Constants.MOVEMENT.SPEED, 0
+      );
+
+      if (moving) {
+        movables.forEach((movable) => {
+          movable.position.x -= Constants.MOVEMENT.SPEED;
+        });
+      }
     }
-  }
 }
 
 // === EXPORT PARA MIGRAÇÃO GRADUAL === //

@@ -175,96 +175,237 @@ const renderables = [
 	player,
 	foreground];
 
-  function animate() {
-    const animationId = requestAnimationFrame(animate)
-    renderables.forEach((renderable) => {
-      renderable.draw()
-    })
-
-    let moving = true
-    player.animate = false
-    
-    const keys = inputHandler.getKeys();
-    const lastKey = inputHandler.getLastKey();
-    
-    if (keys.w.pressed && lastKey === Constants.INPUT.KEYS.W) {
-      player.animate = true
-      player.image = player.sprites.up
-
-      CollisionDetector.checkForCharacterCollision({
-        characters,
-        player,
-        characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
-      });
-
-      moving = !CollisionDetector.checkBoundaryCollision(
-        player, boundaries, 0, Constants.MOVEMENT.SPEED
-      );
-
-      if (moving) {
-        movables.forEach((movable) => {
-          movable.position.y += Constants.MOVEMENT.SPEED;
-        });
-      }
-    } else if (keys.a.pressed && lastKey === Constants.INPUT.KEYS.A) {
-      player.animate = true
-      player.image = player.sprites.left
-
-      CollisionDetector.checkForCharacterCollision({
-        characters,
-        player,
-        characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
-      });
-
-      moving = !CollisionDetector.checkBoundaryCollision(
-        player, boundaries, Constants.MOVEMENT.SPEED, 0
-      );
-
-      if (moving) {
-        movables.forEach((movable) => {
-          movable.position.x += Constants.MOVEMENT.SPEED;
-        });
-      }
-    } else if (keys.s.pressed && lastKey === 's') {
-      player.animate = true
-      player.image = player.sprites.down
-
-      CollisionDetector.checkForCharacterCollision({
-        characters,
-        player,
-        characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED}
-      });
-
-      moving = !CollisionDetector.checkBoundaryCollision(
-        player, boundaries, 0, -Constants.MOVEMENT.SPEED
-      );
-
-      if (moving) {
-        movables.forEach((movable) => {
-          movable.position.y -= Constants.MOVEMENT.SPEED;
-        });
-      }
-    } else if (keys.d.pressed && lastKey === Constants.INPUT.KEYS.D) {
-      player.animate = true
-      player.image = player.sprites.right
-
-      CollisionDetector.checkForCharacterCollision({
-        characters,
-        player,
-        characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
-      });
-
-      moving = !CollisionDetector.checkBoundaryCollision(
-        player, boundaries, -Constants.MOVEMENT.SPEED, 0
-      );
-
-      if (moving) {
-        movables.forEach((movable) => {
-          movable.position.x -= Constants.MOVEMENT.SPEED;
-        });
-      }
-    }
+function animate() {
+  const animationId = requestAnimationFrame(animate);
+  renderScene();
+  updateGameState();
 }
+
+// ✅ RENDERIZAÇÃO DA CENA
+function renderScene() {
+  renderables.forEach(renderable => renderable.draw());
+}
+
+// ✅ ATUALIZAÇÃO DO ESTADO DO JOGO
+function updateGameState() {
+  handlePlayerMovement();
+  // checkCollisions();
+  // updateAnimations();
+}
+
+// ✅ CONTROLE DE MOVIMENTO DO PLAYER
+function handlePlayerMovement() {
+  const keys = inputHandler.getKeys();
+  const lastKey = inputHandler.getLastKey();
+  
+  let moving = true;
+  player.animate = false;
+
+  if (keys.w.pressed && lastKey === 'w') {
+    moving = handleMoveUp();
+  } else if (keys.a.pressed && lastKey === 'a') {
+    moving = handleMoveLeft();
+  } else if (keys.s.pressed && lastKey === 's') {
+    moving = handleMoveDown();
+  } else if (keys.d.pressed && lastKey === 'd') {
+    moving = handleMoveRight();
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA CIMA
+function handleMoveUp() {
+  player.animate = true;
+  player.image = player.sprites.up;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, 0, Constants.MOVEMENT.SPEED
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.y += Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA ESQUERDA
+function handleMoveLeft() {
+  player.animate = true;
+  player.image = player.sprites.left;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, Constants.MOVEMENT.SPEED, 0
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.x += Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA BAIXO
+function handleMoveDown() {
+  player.animate = true;
+  player.image = player.sprites.down;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, 0, -Constants.MOVEMENT.SPEED
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.y -= Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA DIREITA
+function handleMoveRight() {
+  player.animate = true;
+  player.image = player.sprites.right;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, -Constants.MOVEMENT.SPEED, 0
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.x -= Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ VERIFICAÇÃO DE COLISÕES
+// function checkCollisions() {
+  // Colisões já são tratadas nas funções de movimento
+  // Esta função pode ser expandida para outras colisões no futuro
+// }
+
+// ✅ ATUALIZAÇÃO DE ANIMAÇÕES
+// function updateAnimations() {
+  // Animations são atualizadas automaticamente nos sprites
+  // Esta função pode ser usada para animações especiais
+// }
+
+
+  // rmeovido temporariamente para destrincher animate
+//   function animate() {
+//     const animationId = requestAnimationFrame(animate)
+//     renderables.forEach((renderable) => {
+//       renderable.draw()
+//     })
+
+//     let moving = true
+//     player.animate = false
+    
+//     const keys = inputHandler.getKeys();
+//     const lastKey = inputHandler.getLastKey();
+    
+//     if (keys.w.pressed && lastKey === Constants.INPUT.KEYS.W) {
+//       player.animate = true
+//       player.image = player.sprites.up
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, 0, Constants.MOVEMENT.SPEED
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.y += Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.a.pressed && lastKey === Constants.INPUT.KEYS.A) {
+//       player.animate = true
+//       player.image = player.sprites.left
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, Constants.MOVEMENT.SPEED, 0
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.x += Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.s.pressed && lastKey === 's') {
+//       player.animate = true
+//       player.image = player.sprites.down
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED}
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, 0, -Constants.MOVEMENT.SPEED
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.y -= Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.d.pressed && lastKey === Constants.INPUT.KEYS.D) {
+//       player.animate = true
+//       player.image = player.sprites.right
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, -Constants.MOVEMENT.SPEED, 0
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.x -= Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     }
+// }
 
 // === EXPORT PARA MIGRAÇÃO GRADUAL === //
 export function initGame() {

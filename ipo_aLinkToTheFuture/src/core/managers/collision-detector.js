@@ -1,6 +1,7 @@
 // src/core/collision-detector.js
 
-import { BOUNDARY } from "./constants/constants";
+import { charactersMapData  } from "../../../assets/data/characters";
+import * as Constants from '../constants/index.js';
 
 export class CollisionDetector {
     static rectangularCollision({ rectangle1, rectangle2 }) {
@@ -22,12 +23,13 @@ export class CollisionDetector {
         for (let i = 0; i < characters.length; i++) {
             const character = characters[i];
             
-            // Usar charactersMap se disponível globalmente
-            const characterValue = window.charactersMap ?
-                window.charactersMap[
-                    Math.floor((character.position.y - window.offset.y) / BOUNDARY.HEIGHT)
+            // Usar charactersMapData se disponível globalmente
+            const characterValue = charactersMapData ?
+                charactersMapData[
+                    Math.floor((character.position.y - Constants.MOVEMENT.OFFSET.Y) / Constants.BOUNDARY.HEIGHT)
                 ]?.[
-                    Math.floor((character.position.x - window.offset.x) / BOUNDARY.WIDTH)
+                    Math.floor((character.position.x - Constants.MOVEMENT.OFFSET.X) / Constants.BOUNDARY.WIDTH)
+                    // Math.floor((character.position.x - offset.x) / Constants.BOUNDARY.WIDTH)
                 ] :
                 null;
 
@@ -37,7 +39,7 @@ export class CollisionDetector {
                     ...character,
                     position: {
                         x: character.position.x + characterOffset.x,
-                        y: character.position.y + characterOffset.y
+                        y: character.position.y + characterOffset.y,
                     }
                 }
             })) {
@@ -66,7 +68,6 @@ export class CollisionDetector {
         return false;
     }
 
-    // Método auxiliar para verificar colisão em uma direção específica
     static canMoveInDirection(player, boundaries, direction, speed) {
         let offsetX = 0;
         let offsetY = 0;

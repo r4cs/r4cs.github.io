@@ -1,48 +1,26 @@
 console.log("Rodando The Legend of IPO - A link to the future");
 
-import { 
-  TILE, CHARACTER, BOUNDARY, MOVEMENT, CANVAS,
-  bobSprite, ameliaSprite, backgroundImage, foregroundImg,
-  playerDownSprite, playerUpSprite, playerLeftSprite, playerRightSprite
-} from './constants/constants.js';
-
-// 2. Import data
+import * as Constants from './constants/index.js';
+import { setupCanvas } from './canvas.js';
 import {collisions} from '../../assets/data/collisions.js';
-import { mainMenuDialogue } from '../../assets/data/dialogos.js';
 import {charactersMapData} from '../../assets/data/characters.js';
-
-// 3. Import classes
-import { canvas, setupCanvas } from './canvas.js';
-import { Boundary } from './classes/boundary.js';
-import { Sprite } from './classes/sprite.js';
-import { Character } from './classes/characters.js';
-import { Dialogo } from './classes/dialogo.js';
-import { InputHandler } from './input-handler.js';
-import { CollisionDetector } from './collision-detector.js';
+import { Boundary, Sprite, Character, Dialogo } from './classes/index.js';
+import { InputHandler, CollisionDetector } from './managers/index.js';
+import { mainMenuDialogue } from '../../assets/data/dialogos.js';
 import { DialogManager } from '../ui/dialog-manager.js';
-
-
-window.TILE = TILE;
-window.CHARACTER = CHARACTER;
-window.collisions = collisions;
-window.charactersMapData = charactersMapData;
-window.mainMenuDialogue = mainMenuDialogue;
-window.Boundary = Boundary;
-window.Sprite = Sprite;
 
 console.log("📦 All dependencies loaded for migration");
 
-setupCanvas(CANVAS.WIDTH, CANVAS.HEIGHT);
+setupCanvas(Constants.CANVAS.WIDTH, Constants.CANVAS.HEIGHT);
 
 const inputHandler = new InputHandler();
 const collisionDetector = new CollisionDetector();
-// inclusao do dialogManager
-window.dialogManager = new DialogManager();
+// const dialogManager = new DialogManager();
 
 // Tornar offset global para acesso do CollisionDetector
-window.offset = {
-  x: MOVEMENT.OFFSET.X,
-  y: MOVEMENT.OFFSET.Y
+const offset = {
+  x: Constants.MOVEMENT.OFFSET.X,
+  y: Constants.MOVEMENT.OFFSET.Y
 };
 
 const collisionsMap = [];
@@ -51,21 +29,21 @@ for (let i=0; i<collisions.length; i+=100) {
 }
 
 // Tornar charactersMap global para acesso do CollisionDetector
-window.charactersMap = [];
+const charactersMap = [];
 for (let i = 0; i < charactersMapData.length; i += 100) {
-  window.charactersMap.push(charactersMapData.slice(i, 100 + i));
+  charactersMap.push(charactersMapData.slice(i, 100 + i));
 }
 
 const boundaries = [];
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        if (symbol === TILE.COLLISION) {
+        if (symbol === Constants.TILE.COLLISION) {
             boundaries.push(
                 new Boundary({
                     position: {
-                        x: j * BOUNDARY.WIDTH + window.offset.x,
-                        y: i * BOUNDARY.HEIGHT + window.offset.y
+                        x: j * Constants.BOUNDARY.WIDTH + offset.x,
+                        y: i * Constants.BOUNDARY.HEIGHT + offset.y
                     }
                 })
             );
@@ -75,18 +53,18 @@ collisionsMap.forEach((row, i) => {
 
 
 const characters = [];
-const bot = bobSprite;
-const amelia = ameliaSprite;
+const bot = Constants.bobSprite;
+const amelia = Constants.ameliaSprite;
   
-window.charactersMap.forEach((row, i) => {
+charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === CHARACTER.BOB) {
+    if (symbol === Constants.CHARACTER.BOB) {
       characters.push(
         new Character({
           name: 'bob',
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           },
           image: bot,          
           frames: {
@@ -100,17 +78,17 @@ window.charactersMap.forEach((row, i) => {
       )
     }
     
-    if (symbol === CHARACTER.AMELIA.BASE || 
-        symbol === CHARACTER.AMELIA.VARIANT_1 || 
-        symbol === CHARACTER.AMELIA.VARIANT_2 || 
-        symbol === CHARACTER.AMELIA.VARIANT_3 || 
-        symbol === CHARACTER.AMELIA.VARIANT_4) {
+    if (symbol === Constants.CHARACTER.AMELIA.BASE || 
+        symbol === Constants.CHARACTER.AMELIA.VARIANT_1 || 
+        symbol === Constants.CHARACTER.AMELIA.VARIANT_2 || 
+        symbol === Constants.CHARACTER.AMELIA.VARIANT_3 || 
+        symbol === Constants.CHARACTER.AMELIA.VARIANT_4) {
       characters.push(
         new Character({
           name: 'amelia',
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           },
           image: amelia,
           frames: {
@@ -123,12 +101,12 @@ window.charactersMap.forEach((row, i) => {
         })
       )
     }
-    if (symbol !== TILE.EMPTY) {
+    if (symbol !== Constants.TILE.EMPTY) {
       boundaries.push(
         new Boundary({
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           }
         })
       )
@@ -137,20 +115,18 @@ window.charactersMap.forEach((row, i) => {
 })
 
 
-const image = backgroundImage;
-const foregroundImage = foregroundImg;
+const image = Constants.backgroundImage;
+const foregroundImage = Constants.foregroundImg;
 
-const playerDownImage = playerDownSprite;
-const playerUpImage = playerUpSprite;
-const playerLeftImage = playerLeftSprite;
-const playerRightImage = playerRightSprite;
+const playerDownImage = Constants.playerDownSprite;
+const playerUpImage = Constants.playerUpSprite;
+const playerLeftImage = Constants.playerLeftSprite;
+const playerRightImage = Constants.playerRightSprite;
 
-// const player comentado para dialogMngr
-// const player = new Sprite({
-window.player = new Sprite({
+const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4 / 2,
-    y: canvas.height / 2 - 68 / 2
+    x: Constants.CANVAS.WIDTH / 2 - 192 / 4 / 2,
+    y: Constants.CANVAS.HEIGHT / 2 - 68 / 2
   },
   image: playerDownImage,
   frames: {
@@ -165,11 +141,14 @@ window.player = new Sprite({
   },
 })
 
+const dialogManager = new DialogManager();
+dialogManager.setPlayer(player);  // ← Injeta o player
+
 
 const background = new Sprite({
     position: {
-        x: window.offset.x,
-        y: window.offset.y
+        x: offset.x,
+        y: offset.y
     },
     image: image
 });
@@ -177,8 +156,8 @@ const background = new Sprite({
 
 const foreground = new Sprite({
     position: {
-        x: window.offset.x,
-        y: window.offset.y
+        x: offset.x,
+        y: offset.y
     },
     image: foregroundImage
 });
@@ -192,12 +171,12 @@ const movables = [
 const renderables = [
 	background, 
 	...boundaries, 
-	...characters.filter(character => character != CHARACTER.AMELIA.BASE),
+	...characters.filter(character => character != Constants.CHARACTER.AMELIA.BASE),
 	player,
 	foreground];
 
   function animate() {
-  const animationId = window.requestAnimationFrame(animate)
+  const animationId = requestAnimationFrame(animate)
   renderables.forEach((renderable) => {
     renderable.draw()
   })
@@ -215,16 +194,16 @@ const renderables = [
     CollisionDetector.checkForCharacterCollision({
       characters,
       player,
-      characterOffset: { x: 0, y: MOVEMENT.SPEED }
+      characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
     });
 
     moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, MOVEMENT.SPEED
+      player, boundaries, 0, Constants.MOVEMENT.SPEED
     );
 
     if (moving) {
       movables.forEach((movable) => {
-        movable.position.y += MOVEMENT.SPEED;
+        movable.position.y += Constants.MOVEMENT.SPEED;
       });
     }
   } else if (keys.a.pressed && lastKey === 'a') {
@@ -234,16 +213,16 @@ const renderables = [
     CollisionDetector.checkForCharacterCollision({
       characters,
       player,
-      characterOffset: { x: MOVEMENT.SPEED, y: 0 }
+      characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
     });
 
     moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, MOVEMENT.SPEED, 0
+      player, boundaries, Constants.MOVEMENT.SPEED, 0
     );
 
     if (moving) {
       movables.forEach((movable) => {
-        movable.position.x += MOVEMENT.SPEED;
+        movable.position.x += Constants.MOVEMENT.SPEED;
       });
     }
   } else if (keys.s.pressed && lastKey === 's') {
@@ -253,16 +232,16 @@ const renderables = [
     CollisionDetector.checkForCharacterCollision({
       characters,
       player,
-      characterOffset: { x: 0, y: -MOVEMENT.SPEED }
+      characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED }
     });
 
     moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, -MOVEMENT.SPEED
+      player, boundaries, 0, -Constants.MOVEMENT.SPEED
     );
 
     if (moving) {
       movables.forEach((movable) => {
-        movable.position.y -= MOVEMENT.SPEED;
+        movable.position.y -= Constants.MOVEMENT.SPEED;
       });
     }
   } else if (keys.d.pressed && lastKey === 'd') {
@@ -272,16 +251,16 @@ const renderables = [
     CollisionDetector.checkForCharacterCollision({
       characters,
       player,
-      characterOffset: { x: -MOVEMENT.SPEED, y: 0 }
+      characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
     });
 
     moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, -MOVEMENT.SPEED, 0
+      player, boundaries, -Constants.MOVEMENT.SPEED, 0
     );
 
     if (moving) {
       movables.forEach((movable) => {
-        movable.position.x -= MOVEMENT.SPEED;
+        movable.position.x -= Constants.MOVEMENT.SPEED;
       });
     }
   }
@@ -300,4 +279,4 @@ export function initGame() {
 }
 
 // Tornar função global temporariamente para acesso
-window.initGameLegacy = initGame;
+const initGameLegacy = initGame;

@@ -1,5 +1,4 @@
- // js/constants/constants.js
-
+ // src/core/constants/constants.js
 // Collision Tile IDs
 export const TILE = {
   EMPTY: 0,
@@ -54,25 +53,26 @@ export const DIALOGUE = {
 
 // Sprite variables (deve ser carregado após o constants.js)
 export const bobSprite = new Image();
-bobSprite.src = "./assets/img/characters/Bob_phone_16x16.png";
+bobSprite.src = "../../../assets/img/characters/Bob_phone_16x16.png";
+
 
 export const ameliaSprite = new Image();
-ameliaSprite.src = "./assets/img/characters/Amelia_phone_16x16.png";
+ameliaSprite.src = "../../../assets/img/characters/Amelia_phone_16x16.png";
 
 export const backgroundImage = new Image();
-backgroundImage.src = "./assets/img/city/city.png";
+backgroundImage.src = "../../../assets/img/city/city.png";
 
 export const foregroundImg = new Image();
-foregroundImg.src = "./assets/img/city/cityForeground.png";
+foregroundImg.src = "../../../assets/img/city/cityForeground.png";
 
 export const playerDownSprite = new Image();
-playerDownSprite.src = "./assets/img/player/playerDown.png";
+playerDownSprite.src = "../../../assets/img/player/playerDown.png";
 
 export const playerUpSprite = new Image();
-playerUpSprite.src = "./assets/img/player/playerUp.png";
+playerUpSprite.src = "../../../assets/img/player/playerUp.png";
 
 export const playerLeftSprite = new Image();
-playerLeftSprite.src = "./assets/img/player/payerLeft.png";
+playerLeftSprite.src = "../../../assets/img/player/payerLeft.png";
 
 export const playerRightSprite = new Image();
-playerRightSprite.src = "./assets/img/player/playerRight.png";
+playerRightSprite.src = "../../../assets/img/player/playerRight.png";

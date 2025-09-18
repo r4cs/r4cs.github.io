@@ -1,4 +1,4 @@
-var mainMenuDialogue = [
+export const mainMenuDialogue = [
   {'id': 'mainMenuDialogue',
   'question': 'Escolha um tema!!',
   'answers': [

@@ -1,44 +1,49 @@
 console.log("Rodando The Legend of IPO - A link to the future");
 
-const canvas = document.querySelector("canvas");
+import * as Constants from './constants/index.js';
+import { setupCanvas } from './canvas.js';
+import {collisions} from '../../assets/data/collisions.js';
+import {charactersMapData} from '../../assets/data/characters.js';
+import { Boundary, Sprite, Character, Dialogo } from './classes/index.js';
+import { InputHandler, CollisionDetector } from './managers/index.js';
+import { mainMenuDialogue } from '../../assets/data/dialogos.js';
+import { DialogManager } from '../ui/dialog-manager.js';
 
-const canvasContext = canvas.getContext("2d");
+console.log("📦 All dependencies loaded for migration");
 
-canvas.width = CANVAS.WIDTH;
-canvas.height = CANVAS.HEIGHT;
+setupCanvas(Constants.CANVAS.WIDTH, Constants.CANVAS.HEIGHT);
 
 const inputHandler = new InputHandler();
 const collisionDetector = new CollisionDetector();
-// inclusao do dialogManager
-window.dialogManager = new DialogManager();
+// const dialogManager = new DialogManager();
 
 // Tornar offset global para acesso do CollisionDetector
-window.offset = {
-  x: MOVEMENT.OFFSET.X,
-  y: MOVEMENT.OFFSET.Y
+const offset = {
+  x: Constants.MOVEMENT.OFFSET.X,
+  y: Constants.MOVEMENT.OFFSET.Y
 };
 
 const collisionsMap = [];
-for (let i=0; i<collisions.length; i+=100) {
-    collisionsMap.push(collisions.slice(i, 100+i));
+for (let i = 0; i < collisions.length; i += Constants.ARRAY.COLLISION_MAP_CHUNK_SIZE) {
+    collisionsMap.push(collisions.slice(i, Constants.ARRAY.COLLISION_MAP_CHUNK_SIZE + i));
 }
 
 // Tornar charactersMap global para acesso do CollisionDetector
-window.charactersMap = [];
-for (let i = 0; i < charactersMapData.length; i += 100) {
-  window.charactersMap.push(charactersMapData.slice(i, 100 + i));
+const charactersMap = [];
+for (let i = 0; i < charactersMapData.length; i += Constants.ARRAY.CHARACTER_MAP_CHUNK_SIZE) {
+  charactersMap.push(charactersMapData.slice(i, Constants.ARRAY.CHARACTER_MAP_CHUNK_SIZE + i));
 }
 
 const boundaries = [];
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        if (symbol === TILE.COLLISION) {
+        if (symbol === Constants.TILE.COLLISION) {
             boundaries.push(
                 new Boundary({
                     position: {
-                        x: j * BOUNDARY.WIDTH + window.offset.x,
-                        y: i * BOUNDARY.HEIGHT + window.offset.y
+                        x: j * Constants.BOUNDARY.WIDTH + offset.x,
+                        y: i * Constants.BOUNDARY.HEIGHT + offset.y
                     }
                 })
             );
@@ -48,60 +53,60 @@ collisionsMap.forEach((row, i) => {
 
 
 const characters = [];
-const bot = bobSprite;
-const amelia = ameliaSprite;
+const bot = Constants.bobSprite;
+const amelia = Constants.ameliaSprite;
   
-window.charactersMap.forEach((row, i) => {
+charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === CHARACTER.BOB) {
+    if (symbol === Constants.CHARACTER_ID.BOB) {
       characters.push(
         new Character({
           name: 'bob',
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           },
           image: bot,          
           frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
+            max: Constants.SPRITE.CHARACTER.FRAME_COUNT, // quantidade de frames
+            hold: Constants.SPRITE.CHARACTER.FRAME_DELAY // tempo troca frames
           },
-          scale: 3, // tamanho
+          scale: Constants.SPRITE.CHARACTER.SCALE, // tamanho
           animate: true,
           dialogue: null
         })
       )
     }
     
-    if (symbol === CHARACTER.AMELIA.BASE || 
-        symbol === CHARACTER.AMELIA.VARIANT_1 || 
-        symbol === CHARACTER.AMELIA.VARIANT_2 || 
-        symbol === CHARACTER.AMELIA.VARIANT_3 || 
-        symbol === CHARACTER.AMELIA.VARIANT_4) {
+    if (symbol === Constants.CHARACTER_ID.AMELIA.BASE || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_1 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_2 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_3 || 
+        symbol === Constants.CHARACTER_ID.AMELIA.VARIANT_4) {
       characters.push(
         new Character({
           name: 'amelia',
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           },
           image: amelia,
           frames: {
-            max: 9, // quantidade de frames
-            hold: 10 // 60 // tempo troca frames
+            max: Constants.SPRITE.CHARACTER.FRAME_COUNT,
+            hold: Constants.SPRITE.CHARACTER.FRAME_DELAY
           },
-          scale: 3, // tamanho
+          scale: Constants.SPRITE.CHARACTER.SCALE, // tamanho
           animate: true,
           dialogue: ['...', 'Perdi tudinho...']
         })
       )
     }
-    if (symbol !== TILE.EMPTY) {
+    if (symbol !== Constants.TILE.EMPTY) {
       boundaries.push(
         new Boundary({
           position: {
-            x: j * BOUNDARY.WIDTH + window.offset.x,
-            y: i * BOUNDARY.HEIGHT + window.offset.y
+            x: j * Constants.BOUNDARY.WIDTH + offset.x,
+            y: i * Constants.BOUNDARY.HEIGHT + offset.y
           }
         })
       )
@@ -110,25 +115,23 @@ window.charactersMap.forEach((row, i) => {
 })
 
 
-const image = backgroundImage;
-const foregroundImage = foregroundImg;
+const image = Constants.backgroundImage;
+const foregroundImage = Constants.foregroundImg;
 
-const playerDownImage = playerDownSprite;
-const playerUpImage = playerUpSprite;
-const playerLeftImage = playerLeftSprite;
-const playerRightImage = playerRightSprite;
+const playerDownImage = Constants.playerDownSprite;
+const playerUpImage = Constants.playerUpSprite;
+const playerLeftImage = Constants.playerLeftSprite;
+const playerRightImage = Constants.playerRightSprite;
 
-// const player comentado para dialogMngr
-// const player = new Sprite({
-window.player = new Sprite({
+const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4 / 2,
-    y: canvas.height / 2 - 68 / 2
+    x: Constants.PLAYER.INITIAL_POSITION.X,
+    y: Constants.PLAYER.INITIAL_POSITION.Y
   },
   image: playerDownImage,
   frames: {
-    max: 3,
-    hold: 10
+    max: Constants.SPRITE.PLAYER.FRAME_COUNT,
+    hold: Constants.SPRITE.PLAYER.FRAME_DELAY
   },
   sprites: {
     up: playerUpImage,
@@ -138,11 +141,14 @@ window.player = new Sprite({
   },
 })
 
+const dialogManager = new DialogManager();
+dialogManager.setPlayer(player);  // ← Injeta o player
+
 
 const background = new Sprite({
     position: {
-        x: window.offset.x,
-        y: window.offset.y
+        x: offset.x,
+        y: offset.y
     },
     image: image
 });
@@ -150,8 +156,8 @@ const background = new Sprite({
 
 const foreground = new Sprite({
     position: {
-        x: window.offset.x,
-        y: window.offset.y
+        x: offset.x,
+        y: offset.y
     },
     image: foregroundImage
 });
@@ -165,192 +171,253 @@ const movables = [
 const renderables = [
 	background, 
 	...boundaries, 
-	...characters.filter(character => character != CHARACTER.AMELIA.BASE),
+	...characters.filter(character => character != Constants.CHARACTER_ID.AMELIA.BASE),
 	player,
 	foreground];
 
-  // Listener para tecla espaço 
-  // removido temporariamente oara testar DialogMngr
-  // window.addEventListener('keydown', (e) => {
-  //     if (e.key === ' ') {
-  //         if (!player.interactionAsset) return
+function animate() {
+  const animationId = requestAnimationFrame(animate);
+  renderScene();
+  updateGameState();
+}
 
-  //         if (!player.interactionAsset.character.dialogue) {
-  //             console.log("player.interactionAsset: ", player.interactionAsset)
-  //             console.log("characters: ", characters)
+// ✅ RENDERIZAÇÃO DA CENA
+function renderScene() {
+  renderables.forEach(renderable => renderable.draw());
+}
 
-  //             var modal = document.getElementById("dialog-modal");
-  //             modal.style.display = "flex";
+// ✅ ATUALIZAÇÃO DO ESTADO DO JOGO
+function updateGameState() {
+  handlePlayerMovement();
+  // checkCollisions();
+  // updateAnimations();
+}
 
-  //             if (!player.interactionAsset.character.dialogue) {
-  //                 const startBtn = document.querySelector("#start-button")
-  //                 startBtn.style.display = "flex";
-  //             }
-  //         } else {
-  //             console.log('entrou em NPC');
-  //             const firstMessage = player.interactionAsset.character.dialogue[0]
-  //             document.querySelector('#characterDialogueBox').innerHTML = firstMessage
-  //             document.querySelector('#characterDialogueBox').style.display = 'flex'
-  //             player.isInteracting = true
-  //         }
-  //     }
-  // });
-
-  function animate() {
-  const animationId = window.requestAnimationFrame(animate)
-  renderables.forEach((renderable) => {
-    renderable.draw()
-  })
-
-  let moving = true
-  player.animate = false
-  
+// ✅ CONTROLE DE MOVIMENTO DO PLAYER
+function handlePlayerMovement() {
   const keys = inputHandler.getKeys();
   const lastKey = inputHandler.getLastKey();
   
+  let moving = true;
+  player.animate = false;
+
   if (keys.w.pressed && lastKey === 'w') {
-    player.animate = true
-    player.image = player.sprites.up
-
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: MOVEMENT.SPEED }
-    });
-
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, MOVEMENT.SPEED
-    );
-
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.y += MOVEMENT.SPEED;
-      });
-    }
-    // checkForCharacterCollision({
-    //   characters,
-    //   player,
-    //   characterOffset: { x: 0, y: MOVEMENT.SPEED }
-    // })
-
-    // for (let i = 0; i < boundaries.length; i++) {
-    //   const boundary = boundaries[i]
-    //   if (
-    //     rectangularCollision({
-    //       rectangle1: player,
-    //       rectangle2: {
-    //         ...boundary,
-    //         position: {
-    //           x: boundary.position.x,
-    //           y: boundary.position.y + MOVEMENT.SPEED
-    //         }
-    //       }
-    //     })
-    //   ) {
-    //     moving = false
-    //     break
-    //   }
-    // }
-
-    // if (moving)
-    //   movables.forEach((movable) => {
-    //     movable.position.y += MOVEMENT.SPEED
-    //   })
-
-    // fim de comentado para testar collision detector
+    moving = handleMoveUp();
   } else if (keys.a.pressed && lastKey === 'a') {
-    player.animate = true
-    player.image = player.sprites.left
-
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: MOVEMENT.SPEED, y: 0 }
-    });
-
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, MOVEMENT.SPEED, 0
-    );
-
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.x += MOVEMENT.SPEED;
-      });
-    }
-    // checkForCharacterCollision({
-    //   characters,
-    //   player,
-    //   characterOffset: { x: MOVEMENT.SPEED, y: 0 }
-    // })
-
-    // for (let i = 0; i < boundaries.length; i++) {
-    //   const boundary = boundaries[i]
-    //   if (
-    //     rectangularCollision({
-    //       rectangle1: player,
-    //       rectangle2: {
-    //         ...boundary,
-    //         position: {
-    //           x: boundary.position.x + MOVEMENT.SPEED,
-    //           y: boundary.position.y
-    //         }
-    //       }
-    //     })
-    //   ) {
-    //     moving = false
-    //     break
-    //   }
-    // }
-
-    // if (moving)
-    //   movables.forEach((movable) => {
-    //     movable.position.x += MOVEMENT.SPEED
-    //   })
-
-
-    // fim comentado para testar collision detector
+    moving = handleMoveLeft();
   } else if (keys.s.pressed && lastKey === 's') {
-    player.animate = true
-    player.image = player.sprites.down
-
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: -MOVEMENT.SPEED }
-    });
-
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, 0, -MOVEMENT.SPEED
-    );
-
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.y -= MOVEMENT.SPEED;
-      });
-    }
+    moving = handleMoveDown();
   } else if (keys.d.pressed && lastKey === 'd') {
-    player.animate = true
-    player.image = player.sprites.right
-
-    CollisionDetector.checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: -MOVEMENT.SPEED, y: 0 }
-    });
-
-    moving = !CollisionDetector.checkBoundaryCollision(
-      player, boundaries, -MOVEMENT.SPEED, 0
-    );
-
-    if (moving) {
-      movables.forEach((movable) => {
-        movable.position.x -= MOVEMENT.SPEED;
-      });
-    }
+    moving = handleMoveRight();
   }
+
+  return moving;
 }
 
-const dialogo = new Dialogo(mainMenuDialogue);
-dialogo.initDialog();
+// ✅ MOVIMENTO PARA CIMA
+function handleMoveUp() {
+  player.animate = true;
+  player.image = player.sprites.up;
 
-animate();
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, 0, Constants.MOVEMENT.SPEED
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.y += Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA ESQUERDA
+function handleMoveLeft() {
+  player.animate = true;
+  player.image = player.sprites.left;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, Constants.MOVEMENT.SPEED, 0
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.x += Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA BAIXO
+function handleMoveDown() {
+  player.animate = true;
+  player.image = player.sprites.down;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, 0, -Constants.MOVEMENT.SPEED
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.y -= Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ MOVIMENTO PARA DIREITA
+function handleMoveRight() {
+  player.animate = true;
+  player.image = player.sprites.right;
+
+  CollisionDetector.checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
+  });
+
+  const moving = !CollisionDetector.checkBoundaryCollision(
+    player, boundaries, -Constants.MOVEMENT.SPEED, 0
+  );
+
+  if (moving) {
+    movables.forEach(movable => movable.position.x -= Constants.MOVEMENT.SPEED);
+  }
+
+  return moving;
+}
+
+// ✅ VERIFICAÇÃO DE COLISÕES
+// function checkCollisions() {
+  // Colisões já são tratadas nas funções de movimento
+  // Esta função pode ser expandida para outras colisões no futuro
+// }
+
+// ✅ ATUALIZAÇÃO DE ANIMAÇÕES
+// function updateAnimations() {
+  // Animations são atualizadas automaticamente nos sprites
+  // Esta função pode ser usada para animações especiais
+// }
+
+
+  // rmeovido temporariamente para destrincher animate
+//   function animate() {
+//     const animationId = requestAnimationFrame(animate)
+//     renderables.forEach((renderable) => {
+//       renderable.draw()
+//     })
+
+//     let moving = true
+//     player.animate = false
+    
+//     const keys = inputHandler.getKeys();
+//     const lastKey = inputHandler.getLastKey();
+    
+//     if (keys.w.pressed && lastKey === Constants.INPUT.KEYS.W) {
+//       player.animate = true
+//       player.image = player.sprites.up
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: 0, y: Constants.MOVEMENT.SPEED }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, 0, Constants.MOVEMENT.SPEED
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.y += Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.a.pressed && lastKey === Constants.INPUT.KEYS.A) {
+//       player.animate = true
+//       player.image = player.sprites.left
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: Constants.MOVEMENT.SPEED, y: 0 }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, Constants.MOVEMENT.SPEED, 0
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.x += Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.s.pressed && lastKey === 's') {
+//       player.animate = true
+//       player.image = player.sprites.down
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: 0, y: -Constants.MOVEMENT.SPEED}
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, 0, -Constants.MOVEMENT.SPEED
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.y -= Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     } else if (keys.d.pressed && lastKey === Constants.INPUT.KEYS.D) {
+//       player.animate = true
+//       player.image = player.sprites.right
+
+//       CollisionDetector.checkForCharacterCollision({
+//         characters,
+//         player,
+//         characterOffset: { x: -Constants.MOVEMENT.SPEED, y: 0 }
+//       });
+
+//       moving = !CollisionDetector.checkBoundaryCollision(
+//         player, boundaries, -Constants.MOVEMENT.SPEED, 0
+//       );
+
+//       if (moving) {
+//         movables.forEach((movable) => {
+//           movable.position.x -= Constants.MOVEMENT.SPEED;
+//         });
+//       }
+//     }
+// }
+
+// === EXPORT PARA MIGRAÇÃO GRADUAL === //
+export function initGame() {
+  console.log("🎮 Initializing game from game.js...");
+  
+  // Chamar a função animate() que já existe
+  animate();
+  
+  // Inicializar diálogo (já existente)
+  const dialogo = new Dialogo(mainMenuDialogue);
+  dialogo.initDialog();
+}
+
+// Tornar função global temporariamente para acesso
+const initGameLegacy = initGame;

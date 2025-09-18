@@ -1,5 +1,9 @@
 // js/classes/boundary.js
-class Boundary {
+
+import { canvasContext } from "../canvas.js";
+
+
+export class Boundary {
 
   	static width = 64;
     static height = 64;

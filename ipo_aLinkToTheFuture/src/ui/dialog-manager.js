@@ -1,18 +1,21 @@
 // src/ui/dialog-manager.js
-class DialogManager {
+import { Dialogo } from "../core/classes/dialogo";
+import { mainMenuDialogue } from "../../assets/data/dialogos";
+
+export class DialogManager {
     constructor() {
+        this.player = null;
         this.dialogModal = document.getElementById("dialog-modal");
         this.characterDialogueBox = document.getElementById('characterDialogueBox');
         this.startBtn = document.getElementById("start-button");
         this.quitBtn = document.getElementById("quit-button");
         this.dialogo = null;
-        
         this.init();
     }
 
     init() {
-        if (window.mainMenuDialogue) {
-            this.dialogo = new Dialogo(window.mainMenuDialogue);
+        if (mainMenuDialogue) {
+            this.dialogo = new Dialogo(mainMenuDialogue);
             this.dialogo.initDialog();
         }
 
@@ -25,9 +28,9 @@ class DialogManager {
         });
 
         // Listener para tecla espaço
-        window.addEventListener('keydown', (e) => {
-            if (e.key === ' ' && window.player) {
-                this.handlePlayerInteraction(window.player);
+        addEventListener('keydown', (e) => {
+            if (e.key === ' ' && this.player) {
+                this.handlePlayerInteraction(this.player);
             }
         });
     }
@@ -45,7 +48,7 @@ class DialogManager {
     showMainDialog() {
         this.dialogModal.style.display = "flex";
         
-        if (!window.player.interactionAsset.character.dialogue) {
+        if (!this.player.interactionAsset.character.dialogue) {
             this.startBtn.style.display = "flex";
         }
     }
@@ -55,8 +58,8 @@ class DialogManager {
         this.startBtn.style.display = "none";
         this.characterDialogueBox.style.display = 'none';
         
-        if (window.player) {
-            window.player.isInteracting = false;
+        if (this.player) {
+            this.player.isInteracting = false;
         }
     }
 
@@ -66,9 +69,13 @@ class DialogManager {
         this.characterDialogueBox.innerHTML = firstMessage;
         this.characterDialogueBox.style.display = 'flex';
         
-        if (window.player) {
-            window.player.isInteracting = true;
+        if (this.player) {
+            this.player.isInteracting = true;
         }
+    }
+
+    setPlayer(player) {
+        this.player = player;
     }
 
     // Método para iniciar diálogo programaticamente

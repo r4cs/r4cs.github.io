@@ -1,5 +1,7 @@
 // js/classes/character.js
-class Character extends Sprite {
+import { Sprite } from "./sprite"
+
+export class Character extends Sprite {
   constructor({
     position,
     velocity,
